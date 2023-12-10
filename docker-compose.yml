@@ -1,0 +1,18 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:8.0.35
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: ismart-arena
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./mysql:/var/lib/mysql:rw
+    ports:
+      - 3306:3306
+    networks:
+      - app_network
+    restart: always
+networks:
+  app_network:
+    driver: bridge

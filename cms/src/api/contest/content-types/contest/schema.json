@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contests",
+  "info": {
+    "singularName": "contest",
+    "pluralName": "contests",
+    "displayName": "Contest",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "gamePacks": {
+      "type": "dynamiczone",
+      "components": [
+        "quiz.quiz-packs"
+      ]
+    },
+    "result": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::result.result",
+      "mappedBy": "contest"
+    }
+  }
+}

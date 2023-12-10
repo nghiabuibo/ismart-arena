@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_quiz_quiz_questions",
+  "info": {
+    "displayName": "Quiz Questions",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "answers": {
+      "type": "component",
+      "repeatable": true,
+      "component": "quiz.quiz-game-answers"
+    }
+  }
+}

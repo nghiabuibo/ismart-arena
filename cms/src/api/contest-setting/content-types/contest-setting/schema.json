@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "contest_settings",
+  "info": {
+    "singularName": "contest-setting",
+    "pluralName": "contest-settings",
+    "displayName": "Contest Settings",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "currentContest": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::contest.contest"
+    }
+  }
+}

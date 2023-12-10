@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "results",
+  "info": {
+    "singularName": "result",
+    "pluralName": "results",
+    "displayName": "Result",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "contest": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::contest.contest",
+      "inversedBy": "result"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "result"
+    },
+    "answers": {
+      "type": "json"
+    }
+  }
+}

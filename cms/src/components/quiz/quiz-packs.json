@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_quiz_quiz_packs",
+  "info": {
+    "displayName": "Quiz Packs"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "questions": {
+      "displayName": "Quiz Questions",
+      "type": "component",
+      "repeatable": true,
+      "component": "quiz.quiz-questions"
+    }
+  }
+}

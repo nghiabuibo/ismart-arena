@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_quiz_game_quiz_game_answers",
+  "info": {
+    "displayName": "Quiz Answers",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "value": {
+      "type": "string"
+    }
+  }
+}
