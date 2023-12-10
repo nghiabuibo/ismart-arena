@@ -15,17 +15,24 @@
     "contest": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::contest.contest",
-      "inversedBy": "result"
+      "target": "api::contest.contest"
     },
     "user": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "result"
+      "inversedBy": "results"
     },
     "answers": {
       "type": "json"
+    },
+    "group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group.group"
+    },
+    "score": {
+      "type": "integer"
     }
   }
 }

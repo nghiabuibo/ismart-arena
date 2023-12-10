@@ -9,8 +9,7 @@
     "displayName": "User"
   },
   "options": {
-    "draftAndPublish": false,
-    "timestamps": true
+    "draftAndPublish": false
   },
   "attributes": {
     "username": {
@@ -66,11 +65,17 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "result": {
+    "results": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::result.result",
       "mappedBy": "user"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "grade": {
+      "type": "string"
     }
   }
 }

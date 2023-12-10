@@ -1,33 +1,24 @@
-import { useEffect } from "react";
-import socket from "./utils/socket";
+import { useEffect, useState } from "react";
+import Authentication from "./views/Authentication";
+import Games from "./views/Games";
 
 function App() {
+  const [accessToken, setAccessToken] = useState('')
+  
   useEffect(() => {
-    socket.connect()
-    socket.on('result:update', (data) => console.log(data))
+    const localAccessToken = localStorage.getItem('access_token')
 
-    return () => {
-      socket.disconnect()
-      socket.off('result:update')
-    }
-  })
+    if (!localAccessToken) return
+
+    setAccessToken(localAccessToken)
+  }, [])
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    !accessToken
+    ?
+    <Authentication setAccessToken={setAccessToken} />
+    :
+    <Games accessToken={accessToken} />
   );
 }
 

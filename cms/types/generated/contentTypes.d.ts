@@ -376,11 +376,6 @@ export interface ApiContestContest extends Schema.CollectionType {
   attributes: {
     name: Attribute.String;
     gamePacks: Attribute.DynamicZone<['quiz.quiz-packs']>;
-    result: Attribute.Relation<
-      'api::contest.contest',
-      'oneToOne',
-      'api::result.result'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -411,11 +406,7 @@ export interface ApiContestSettingContestSetting extends Schema.SingleType {
     draftAndPublish: false;
   };
   attributes: {
-    currentContest: Attribute.Relation<
-      'api::contest-setting.contest-setting',
-      'oneToOne',
-      'api::contest.contest'
-    >;
+    contestGroups: Attribute.Component<'contest.contest-group', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -426,6 +417,37 @@ export interface ApiContestSettingContestSetting extends Schema.SingleType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::contest-setting.contest-setting',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiGroupGroup extends Schema.CollectionType {
+  collectionName: 'groups';
+  info: {
+    singularName: 'group';
+    pluralName: 'groups';
+    displayName: 'Group';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    code: Attribute.UID;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::group.group',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::group.group',
       'oneToOne',
       'admin::user'
     > &
@@ -452,10 +474,16 @@ export interface ApiResultResult extends Schema.CollectionType {
     >;
     user: Attribute.Relation<
       'api::result.result',
-      'oneToOne',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
     answers: Attribute.JSON;
+    group: Attribute.Relation<
+      'api::result.result',
+      'oneToOne',
+      'api::group.group'
+    >;
+    score: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -742,7 +770,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -771,11 +798,13 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    result: Attribute.Relation<
+    results: Attribute.Relation<
       'plugin::users-permissions.user',
-      'oneToOne',
+      'oneToMany',
       'api::result.result'
     >;
+    phone: Attribute.String;
+    grade: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -805,6 +834,7 @@ declare module '@strapi/types' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'api::contest.contest': ApiContestContest;
       'api::contest-setting.contest-setting': ApiContestSettingContestSetting;
+      'api::group.group': ApiGroupGroup;
       'api::result.result': ApiResultResult;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;

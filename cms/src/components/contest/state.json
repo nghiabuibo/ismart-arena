@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_contest_states",
+  "info": {
+    "displayName": "State",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "currentGamePack": {
+      "type": "integer",
+      "default": 0
+    },
+    "currentQuestion": {
+      "type": "integer",
+      "default": 0
+    },
+    "currentTimeLeft": {
+      "type": "integer",
+      "default": 0
+    },
+    "currentStatus": {
+      "type": "enumeration",
+      "enum": [
+        "playing",
+        "paused",
+        "ended"
+      ],
+      "default": "playing"
+    }
+  }
+}

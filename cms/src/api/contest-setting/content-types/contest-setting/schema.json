@@ -12,10 +12,10 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "currentContest": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::contest.contest"
+    "contestGroups": {
+      "type": "component",
+      "repeatable": true,
+      "component": "contest.contest-group"
     }
   }
 }
