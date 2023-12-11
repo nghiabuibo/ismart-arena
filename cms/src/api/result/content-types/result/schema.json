@@ -17,22 +17,22 @@
       "relation": "oneToOne",
       "target": "api::contest.contest"
     },
+    "group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group.group"
+    },
     "user": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "results"
     },
-    "answers": {
-      "type": "json"
-    },
-    "group": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::group.group"
-    },
     "score": {
       "type": "integer"
+    },
+    "answers": {
+      "type": "json"
     }
   }
 }

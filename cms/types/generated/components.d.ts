@@ -7,15 +7,15 @@ export interface ContestContestGroup extends Schema.Component {
     description: '';
   };
   attributes: {
-    contest: Attribute.Relation<
-      'contest.contest-group',
-      'oneToOne',
-      'api::contest.contest'
-    >;
     group: Attribute.Relation<
       'contest.contest-group',
       'oneToOne',
       'api::group.group'
+    >;
+    contest: Attribute.Relation<
+      'contest.contest-group',
+      'oneToOne',
+      'api::contest.contest'
     >;
     state: Attribute.Component<'contest.state'>;
   };
@@ -32,7 +32,7 @@ export interface ContestState extends Schema.Component {
     currentQuestion: Attribute.Integer & Attribute.DefaultTo<0>;
     currentTimeLeft: Attribute.Integer & Attribute.DefaultTo<0>;
     currentStatus: Attribute.Enumeration<['playing', 'paused', 'ended']> &
-      Attribute.DefaultTo<'playing'>;
+      Attribute.DefaultTo<'paused'>;
   };
 }
 

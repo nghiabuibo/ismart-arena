@@ -22,8 +22,10 @@ export default async (ctx, config, { strapi }) => {
     if (user) {
         const isCorrectedPassword = await strapi.plugin('users-permissions').services.user.validatePassword(phone, user.password)
         if (!isCorrectedPassword) throw new ApplicationError('Incorrect phone number!')
+        
         ctx.request.body.userID = user.id
+        ctx.request.body.data.grade = user.grade
     }
-    
+
     return true;
 };

@@ -21,7 +21,7 @@ function Authentication(props) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const apiUrl = process.env.REACT_APP_API_URL
-        const endpoint = '/results/register'
+        const endpoint = '/contest/register'
         const response = await axios.post(apiUrl + endpoint, { data: authInfo }).catch(handleRequestError)
 
         if (!response?.data?.accessToken) return

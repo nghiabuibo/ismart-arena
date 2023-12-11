@@ -371,14 +371,13 @@ export interface ApiContestContest extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     name: Attribute.String;
     gamePacks: Attribute.DynamicZone<['quiz.quiz-packs']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::contest.contest',
       'oneToOne',
@@ -430,16 +429,17 @@ export interface ApiGroupGroup extends Schema.CollectionType {
     singularName: 'group';
     pluralName: 'groups';
     displayName: 'Group';
+    description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     name: Attribute.String;
     code: Attribute.UID;
+    grades: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::group.group',
       'oneToOne',
@@ -472,18 +472,18 @@ export interface ApiResultResult extends Schema.CollectionType {
       'oneToOne',
       'api::contest.contest'
     >;
-    user: Attribute.Relation<
-      'api::result.result',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    answers: Attribute.JSON;
     group: Attribute.Relation<
       'api::result.result',
       'oneToOne',
       'api::group.group'
     >;
+    user: Attribute.Relation<
+      'api::result.result',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     score: Attribute.Integer;
+    answers: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -805,6 +805,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     >;
     phone: Attribute.String;
     grade: Attribute.String;
+    name: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

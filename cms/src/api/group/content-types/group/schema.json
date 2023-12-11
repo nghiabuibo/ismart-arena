@@ -4,10 +4,11 @@
   "info": {
     "singularName": "group",
     "pluralName": "groups",
-    "displayName": "Group"
+    "displayName": "Group",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -16,6 +17,9 @@
     },
     "code": {
       "type": "uid"
+    },
+    "grades": {
+      "type": "string"
     }
   }
 }

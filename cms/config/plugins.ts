@@ -1,3 +1,5 @@
+import handleSocketConnection from "../src/socket/handleSocketConnection";
+
 export default ({ env }) => ({
     io: {
         enabled: true,
@@ -6,10 +8,7 @@ export default ({ env }) => ({
             events: [
                 {
                     name: 'connection',
-                    handler({ strapi, io }, socket) {
-                        // will log whenever a socket connects
-                        strapi.log.info(`[io] new connection with id ${socket.id}`);
-                    },
+                    handler: handleSocketConnection
                 },
             ],
             socket: {
