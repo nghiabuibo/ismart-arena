@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_wordfind_word_find_packs",
+  "info": {
+    "displayName": "Word Find Packs",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

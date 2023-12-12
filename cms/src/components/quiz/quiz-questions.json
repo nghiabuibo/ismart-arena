@@ -9,10 +9,23 @@
     "title": {
       "type": "string"
     },
+    "illustration": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "videos",
+        "audios"
+      ]
+    },
     "answers": {
       "type": "component",
       "repeatable": true,
-      "component": "quiz.quiz-game-answers"
+      "component": "quiz.quiz-answers"
+    },
+    "maxScore": {
+      "type": "integer"
     }
   }
 }

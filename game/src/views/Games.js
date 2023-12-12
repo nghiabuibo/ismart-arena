@@ -1,10 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import socket from "../utils/socket";
 import handleRequestError from "../utils/handleRequestError";
+import Quiz from "../components/games/quiz";
+import WordFind from "../components/games/wordfind";
 // import axios from "axios";
 
 function Games(props) {
     const { accessToken, setAccessToken } = props
+    const [gamePacks, setGamePacks] = useState([])
+    const [gameState, setGameState] = useState({})
+    const [userResult, setUserResult] = useState({})
 
     // handle socket authen
     useEffect(() => {
@@ -30,21 +35,54 @@ function Games(props) {
 
     // setup socket events
     useEffect(() => {
-        socket.on('result:update', (data) => console.log(data))
-        socket.on('game:updateContest', (data) => console.log(data))
-        socket.on('game:updateGameState', (data) => console.log(data))
-        socket.on('game:updateResult', (data) => console.log(data))
+        socket.on('game:initGamePacks', setGamePacks)
+        socket.on('game:initGameState', setGameState)
+        socket.on('game:initResult', setUserResult)
+
+        socket.on('result:update', (data) => {
+            console.log(data)
+            console.log(setUserResult(data.data))
+        })
 
         return () => {
             socket.off('result:update')
-            socket.off('game:updateContest')
-            socket.off('game:updateGameState')
-            socket.off('game:updateResult')
+            socket.off('game:initGamePacks')
+            socket.off('game:initGameState')
+            socket.off('game:initResult')
         }
     }, [])
 
+    const handleAnswer = (answer) => {
+        socket.emit('game:answer', answer)
+    }
+
+    const currentGamePack = gamePacks[gameState?.currentGamePack]
+    const currentQuestion = currentGamePack?.questions[gameState?.currentQuestion]
+
+    console.log(currentGamePack, currentQuestion)
+
     return (
-        <div>Games</div>
+        <>
+            {
+                JSON.stringify(userResult)
+            }
+            {
+                currentGamePack && currentQuestion
+                    ?
+                    <>
+                        {
+                            currentGamePack.__component === 'game-packs.quiz-packs' &&
+                            <Quiz question={currentQuestion} handleAnswer={handleAnswer} />
+                        }
+                        {
+                            currentGamePack.__component === 'game-packs.word-find-packs' &&
+                            <WordFind question={currentQuestion} handleAnswer={handleAnswer} />
+                        }
+                    </>
+                    :
+                    <div>Loading</div>
+            }
+        </>
     )
 }
 

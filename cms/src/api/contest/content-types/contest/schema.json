@@ -18,7 +18,8 @@
     "gamePacks": {
       "type": "dynamiczone",
       "components": [
-        "quiz.quiz-packs"
+        "game-packs.word-find-packs",
+        "game-packs.quiz-packs"
       ]
     }
   }

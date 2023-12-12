@@ -1,3 +1,4 @@
+import handleGameAnswer from "../src/socket/handleGameAnswer";
 import handleSocketConnection from "../src/socket/handleSocketConnection";
 
 export default ({ env }) => ({
@@ -9,6 +10,10 @@ export default ({ env }) => ({
                 {
                     name: 'connection',
                     handler: handleSocketConnection
+                },
+                {
+                    name: 'game:answer',
+                    handler: handleGameAnswer
                 },
             ],
             socket: {

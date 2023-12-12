@@ -1,7 +1,8 @@
 {
-  "collectionName": "components_quiz_quiz_packs",
+  "collectionName": "components_game_packs_quiz_packs",
   "info": {
-    "displayName": "Quiz Packs"
+    "displayName": "Quiz Packs",
+    "description": ""
   },
   "options": {},
   "attributes": {
