@@ -34,8 +34,8 @@ async function getUserResult(userID) {
             user: userID
         }
     })
-    
-    return newResult       
+
+    return newResult
 }
 
 export default getUserResult

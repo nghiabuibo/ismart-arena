@@ -8,9 +8,17 @@ function Quiz(props) {
         )
     })
 
+    console.log(question)
+
     return (
         <>
-            <div>{question.title}</div>
+            {question.title &&
+                <div>{question.title}</div>}
+
+            {question.illustration &&
+                <img src={process.env.REACT_APP_CMS_URL + question.illustration.url} alt="Illustration" />
+            }
+            
             <div>
                 {renderAnswer}
             </div>

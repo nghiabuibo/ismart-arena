@@ -1,9 +1,13 @@
-async function getContestGroups() {
-    const contestSettings = await strapi.entityService.findMany('api::contest-setting.contest-setting', {
-        populate: 'contestGroups.group, contestGroups.contest, contestGroups.state'
+async function getContestGroups(isAdmin = false) {
+    const populate: any = ['contestGroups.group', 'contestGroups.contest', 'contestGroups.state']
+    if (isAdmin) {
+        populate.push('contestGroups.contest.gamePacks.questions')
+    }
+    const contestSettings: any = await strapi.entityService.findMany('api::contest-setting.contest-setting', {
+        populate
     })
 
-    return contestSettings.contestGroups
+    return contestSettings?.contestGroups ?? []
 }
 
 export default getContestGroups

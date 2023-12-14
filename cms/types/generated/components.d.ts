@@ -85,6 +85,7 @@ export interface QuizQuizQuestions extends Schema.Component {
     illustration: Attribute.Media;
     answers: Attribute.Component<'quiz.quiz-answers', true>;
     maxScore: Attribute.Integer;
+    timeLimit: Attribute.Integer & Attribute.DefaultTo<0>;
   };
 }
 

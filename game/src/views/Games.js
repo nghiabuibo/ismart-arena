@@ -3,6 +3,8 @@ import socket from "../utils/socket";
 import handleRequestError from "../utils/handleRequestError";
 import Quiz from "../components/games/quiz";
 import WordFind from "../components/games/wordfind";
+import Leaderboard from "../components/games/leaderboard";
+import GameState from "../components/games/state";
 // import axios from "axios";
 
 function Games(props) {
@@ -35,54 +37,76 @@ function Games(props) {
 
     // setup socket events
     useEffect(() => {
-        socket.on('game:initGamePacks', setGamePacks)
-        socket.on('game:initGameState', setGameState)
-        socket.on('game:initResult', setUserResult)
+        socket.on('connect', () => {
+            socket.emit('user:connection')
+        })
+        socket.on('game:updateGamePacks', setGamePacks)
+        socket.on('game:updateGameState', setGameState)
+        socket.on('game:updateResult', setUserResult)
 
-        socket.on('result:update', (data) => {
-            console.log(data)
-            console.log(setUserResult(data.data))
+        socket.on('contest-setting:update', () => {
+            socket.emit('game:getGameState')
         })
 
+        socket.on('result:update', (data) => {
+            if (userResult.id !== data.data?.id) return
+            const userResultMap = {
+                id: data.data.id,
+                ...data.data.attributes
+            }
+            setUserResult(userResultMap)
+        })
+
+        socket.on('socket:error', handleRequestError)
+
         return () => {
+            socket.off('connect')
+            socket.off('game:updateGamePacks')
+            socket.off('game:updateGameState')
+            socket.off('game:updateResult')
+            socket.off('contest-setting:update')
             socket.off('result:update')
-            socket.off('game:initGamePacks')
-            socket.off('game:initGameState')
-            socket.off('game:initResult')
+            socket.off('socket:error')
         }
-    }, [])
+    }, [userResult])
 
     const handleAnswer = (answer) => {
         socket.emit('game:answer', answer)
     }
 
     const currentGamePack = gamePacks[gameState?.currentGamePack]
-    const currentQuestion = currentGamePack?.questions[gameState?.currentQuestion]
+    const currentQuestion = currentGamePack?.questions?.[gameState?.currentQuestion]
 
-    console.log(currentGamePack, currentQuestion)
+    // console.log(currentGamePack, currentQuestion)
+    console.log('render')
 
     return (
-        <>
-            {
-                JSON.stringify(userResult)
-            }
-            {
-                currentGamePack && currentQuestion
-                    ?
-                    <>
-                        {
-                            currentGamePack.__component === 'game-packs.quiz-packs' &&
-                            <Quiz question={currentQuestion} handleAnswer={handleAnswer} />
-                        }
-                        {
-                            currentGamePack.__component === 'game-packs.word-find-packs' &&
-                            <WordFind question={currentQuestion} handleAnswer={handleAnswer} />
-                        }
-                    </>
-                    :
-                    <div>Loading</div>
-            }
-        </>
+        <div className="container">
+            <div className="row">
+                <div className="col-lg-4">
+                    <Leaderboard />
+                </div>
+                <div className="col-lg-8">
+                    <GameState gameState={gameState} userResult={userResult} />
+                    {
+                        currentGamePack && currentQuestion
+                            ?
+                            <>
+                                {
+                                    currentGamePack.__component === 'game-packs.quiz-packs' &&
+                                    <Quiz question={currentQuestion} handleAnswer={handleAnswer} />
+                                }
+                                {
+                                    currentGamePack.__component === 'game-packs.word-find-packs' &&
+                                    <WordFind question={currentQuestion} handleAnswer={handleAnswer} />
+                                }
+                            </>
+                            :
+                            <div>Loading</div>
+                    }
+                </div>
+            </div>
+        </div>
     )
 }
 

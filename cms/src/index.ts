@@ -1,3 +1,6 @@
+import getContestGroups from "./utils/getContestGroups";
+import isDeepEqualArray from "./utils/isDeepEqualArray";
+
 export default {
   /**
    * An asynchronous register function that runs before
@@ -5,7 +8,7 @@ export default {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/*{ strapi }*/) {},
+  register(/*{ strapi }*/) { },
 
   /**
    * An asynchronous bootstrap function that runs before
@@ -14,5 +17,35 @@ export default {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
-  bootstrap(/*{ strapi }*/) {},
+  async bootstrap({ strapi }) {
+
+    // set contest groups game time countdown
+    setInterval(async () => {
+      const contestGroups = await getContestGroups()
+
+      const clonedContestGroups = JSON.parse(JSON.stringify(contestGroups))
+      const updatedContestGroups = clonedContestGroups.map(contestGroup => {
+        const updatedContestGroup = { ...contestGroup }
+        if (updatedContestGroup.state.currentStatus === 'playing') {
+          updatedContestGroup.state.currentTimeLeft--
+        }
+        if (updatedContestGroup.state.currentTimeLeft <= 0) {
+          updatedContestGroup.state.currentTimeLeft = 0
+        }
+        return updatedContestGroup
+      })
+
+      // only update timer if there are changes
+      if (isDeepEqualArray(contestGroups, updatedContestGroups)) return
+
+      try {
+        strapi.entityService.update('api::contest-setting.contest-setting', 1, {
+          data: { contestGroups: updatedContestGroups }
+        })
+      } catch (err) {
+        console.log(err)
+      }
+
+    }, 1000)
+  },
 };

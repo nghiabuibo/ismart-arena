@@ -9,7 +9,7 @@ interface decodedToken {
     exp: number
 }
 
-async function handleSocketConnection({ strapi, io }, socket) {
+async function handleUserConnection({ strapi, io }, socket) {
     try {
         const { token } = socket.handshake.auth
         const decoded = jwtDecode<decodedToken>(token)
@@ -21,13 +21,13 @@ async function handleSocketConnection({ strapi, io }, socket) {
 
         const gamePacks = userContest ? userContest.gamePacks : []
 
-        socket.emit('game:initGamePacks', gamePacks)
-        socket.emit('game:initGameState', userGameState)
-        socket.emit('game:initResult', userResult)
+        socket.emit('game:updateGamePacks', gamePacks)
+        socket.emit('game:updateGameState', userGameState)
+        socket.emit('game:updateResult', userResult)
 
     } catch (err) {
         console.log(err)
     }
 }
 
-export default handleSocketConnection
+export default handleUserConnection

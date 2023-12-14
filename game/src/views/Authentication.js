@@ -24,7 +24,12 @@ function Authentication(props) {
         const endpoint = '/contest/register'
         const response = await axios.post(apiUrl + endpoint, { data: authInfo }).catch(handleRequestError)
 
-        if (!response?.data?.accessToken) return
+        if (!response) return;
+        
+        if (!response?.data?.accessToken) {
+            handleRequestError(response?.data ?? { message: 'Authentication error!' })
+            return
+        }
 
         localStorage.setItem('access_token', response.data.accessToken)
         setAccessToken(response.data.accessToken)

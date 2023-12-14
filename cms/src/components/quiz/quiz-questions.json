@@ -26,6 +26,10 @@
     },
     "maxScore": {
       "type": "integer"
+    },
+    "timeLimit": {
+      "type": "integer",
+      "default": 0
     }
   }
 }
