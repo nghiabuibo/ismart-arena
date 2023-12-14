@@ -12,6 +12,7 @@ function Games(props) {
     const [gamePacks, setGamePacks] = useState([])
     const [gameState, setGameState] = useState({})
     const [userResult, setUserResult] = useState({})
+    const [leaderboard, setLeaderboard] = useState([])
 
     // handle socket authen
     useEffect(() => {
@@ -43,12 +44,15 @@ function Games(props) {
         socket.on('game:updateGamePacks', setGamePacks)
         socket.on('game:updateGameState', setGameState)
         socket.on('game:updateResult', setUserResult)
+        socket.on('game:updateLeaderboard', (data) => { setLeaderboard(data.data) })
 
         socket.on('contest-setting:update', () => {
             socket.emit('game:getGameState')
         })
 
         socket.on('result:update', (data) => {
+            socket.emit('game:getLeaderboard')
+
             if (userResult.id !== data.data?.id) return
             const userResultMap = {
                 id: data.data.id,
@@ -64,6 +68,7 @@ function Games(props) {
             socket.off('game:updateGamePacks')
             socket.off('game:updateGameState')
             socket.off('game:updateResult')
+            socket.off('game:updateLeaderboard')
             socket.off('contest-setting:update')
             socket.off('result:update')
             socket.off('socket:error')
@@ -77,14 +82,13 @@ function Games(props) {
     const currentGamePack = gamePacks[gameState?.currentGamePack]
     const currentQuestion = currentGamePack?.questions?.[gameState?.currentQuestion]
 
-    // console.log(currentGamePack, currentQuestion)
     console.log('render')
 
     return (
         <div className="container">
             <div className="row">
                 <div className="col-lg-4">
-                    <Leaderboard />
+                    <Leaderboard leaderboard={leaderboard} />
                 </div>
                 <div className="col-lg-8">
                     <GameState gameState={gameState} userResult={userResult} />

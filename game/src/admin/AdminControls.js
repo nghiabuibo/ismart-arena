@@ -156,14 +156,14 @@ function AdminControls(props) {
             <table key={contestGroup.id} className="table table-bordered mb-5">
                 <thead>
                     <tr>
-                        <td>ID</td>
-                        <td>Contest</td>
-                        <td>Group</td>
-                        <td>Current Game</td>
-                        <td>Current Question</td>
-                        <td>Current Time Left</td>
-                        <td>Current Status</td>
-                        <td>Controls</td>
+                        <th>ID</th>
+                        <th>Contest</th>
+                        <th>Group</th>
+                        <th>Current Game</th>
+                        <th>Current Question</th>
+                        <th>Current Time Left</th>
+                        <th>Current Status</th>
+                        <th>Controls</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -8,8 +8,6 @@ function Quiz(props) {
         )
     })
 
-    console.log(question)
-
     return (
         <>
             {question.title &&

@@ -2,6 +2,7 @@ import { jwtDecode } from "jwt-decode";
 import getUserResult from "../utils/getUserResult";
 import getUserContest from "../utils/getUserContest";
 import getUserGameState from "../utils/getUserGameState";
+import getUserLeaderboard from "../utils/getUserLeaderboard";
 
 interface decodedToken {
     id: number,
@@ -18,13 +19,17 @@ async function handleUserConnection({ strapi, io }, socket) {
         const userContest = await getUserContest(userID)
         const userGameState = await getUserGameState(userID)
         const userResult = await getUserResult(userID)
+        const leaderboard = await getUserLeaderboard(userID)
 
         const gamePacks = userContest ? userContest.gamePacks : []
 
         socket.emit('game:updateGamePacks', gamePacks)
         socket.emit('game:updateGameState', userGameState)
         socket.emit('game:updateResult', userResult)
-
+        io.raw({
+            event: 'game:updateLeaderboard',
+            data: leaderboard
+        })
     } catch (err) {
         console.log(err)
     }
