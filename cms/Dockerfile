@@ -13,7 +13,9 @@ COPY ./server.js ./
 
 COPY ./public/robots.txt ./public/robots.txt
 COPY ./src ./src
+COPY ./types ./types
 COPY ./.env* ./
+COPY ./tsconfig.json ./tsconfig.json
 
 # build admin
 RUN npm run build --clean

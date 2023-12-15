@@ -3,7 +3,7 @@
  */
 
 import { factories } from '@strapi/strapi';
-import WordFindModule from '../../../../libs/wordfind/wordfind';
+import WordFindModule from '../../../libs/wordfind/wordfind';
 
 export default factories.createCoreService('api::contest.contest', ({ strapi }) => ({
     async generateWordFindPuzzle(contestID) {
