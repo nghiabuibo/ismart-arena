@@ -10,11 +10,18 @@ function WordFind(props) {
     const [orientation, setOrientation] = useState('')
     const [found, setFound] = useState([])
 
-    const getElementData = (e) => ({
-        letter: e.target.innerText,
-        x: parseInt(e.target.getAttribute('data-x')),
-        y: parseInt(e.target.getAttribute('data-y'))
-    })
+    const getElementData = (e) => {
+        if (e.type === 'touchmove') {
+            const touch = e.touches[0];
+            e.target = document.elementFromPoint(touch.clientX, touch.clientY)
+        }
+
+        return {
+            letter: e.target.innerText,
+            x: parseInt(e.target.getAttribute('data-x')),
+            y: parseInt(e.target.getAttribute('data-y'))
+        }
+    }
 
     const getOrientation = (e) => {
         if (!selected.length) return
@@ -70,9 +77,11 @@ function WordFind(props) {
 
     useEffect(() => {
         window.addEventListener('mouseup', clearSelected)
+        window.addEventListener('touchend', clearSelected)
 
         return () => {
             window.removeEventListener('mouseup', clearSelected)
+            window.removeEventListener('touchend', clearSelected)
         }
     }, [])
 
@@ -94,7 +103,7 @@ function WordFind(props) {
         const foundChars = []
         solved.found.forEach(item => {
             for (let i = 0; i < item.word.length; i++) {
-                const itemCloned = {...item}
+                const itemCloned = { ...item }
                 if (item.orientation === 'horizontal') itemCloned.x += i
                 if (item.orientation === 'horizontalBack') itemCloned.x -= i
                 if (item.orientation === 'vertical') itemCloned.y += i
@@ -124,7 +133,7 @@ function WordFind(props) {
 
     // handle answer
     useEffect(() => {
-        const word = selected.map(item => item.letter).join('')
+        const word = selected.map(item => item.letter.toLowerCase()).join('')
         const isWordFound = question.answers?.some(answer => answer.text === word)
         if (!isWordFound) return
 
@@ -141,24 +150,48 @@ function WordFind(props) {
             const isSelected = selected.some(item => item.x === x && item.y === y)
             const isFound = found.some(item => item.x === x && item.y === y)
             return (
-                <button
+                <td
                     key={`${x}_${y}`}
                     data-x={x}
                     data-y={y}
                     className={`${isSelected ? styles.selected : ''} ${isFound ? styles.found : ''} ${styles.char}`}
                     onMouseDown={handleMouseDown}
-                    onMouseEnter={handleMouseEnter}>
+                    onMouseEnter={handleMouseEnter}
+                    onTouchStart={handleMouseDown}
+                    onTouchMove={handleMouseEnter}
+                >
                     {row}
-                </button>
+                </td>
             )
         })
-        return <div key={y}>{rows}</div>
+        return <tr key={y}>{rows}</tr>
+    })
+
+    const renderFoundwords = question.foundWords?.map(foundWord => {
+        const [answerMatch] = question.answers?.filter(answer => answer.id === foundWord)
+        return (
+            <span className={styles.foundWord}>
+                {
+                    answerMatch?.text
+                }
+            </span>
+        )
     })
 
     return (
-        <>
-            {renderPuzzle}
-        </>
+        <div className="row">
+            <div className="col-lg-9">
+                <table className={styles.wordFindWrapper}>
+                    <tbody>
+                        {renderPuzzle}
+                    </tbody>
+                </table>
+            </div>
+            <div className="col-lg-3">
+                <h6 className="fw-bold text-white mt-5 mb-3">Các từ đã tìm được</h6>
+                {renderFoundwords}
+            </div>
+        </div>
     )
 }
 

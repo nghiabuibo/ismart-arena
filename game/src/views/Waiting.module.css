@@ -1,0 +1,40 @@
+.titleWrapper {
+    background-image: url(../assets/imgs/title-bg.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    max-width: 500px;
+    padding: 5rem 4rem 5rem 3.5rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 2rem;
+    color: #fff;
+}
+
+.playerCount {
+    font-size: 14rem;
+    text-align: center;
+    /* color: orangered; */
+    line-height: 1;
+    background: #FF8A14;
+    background: linear-gradient(to right, #ffb265 27%, #af3d11 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0.8;
+}
+
+.player {
+    font-size: 5rem;
+}
+
+@media (max-width: 768px) {
+    .playerCount {
+        font-size: 5rem;
+        text-align: center;
+        color: orangered;
+    }
+
+    .player {
+        font-size: 3rem;
+    }
+}

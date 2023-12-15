@@ -1,0 +1,35 @@
+.itemWrapper {
+    color: #fff;
+    padding: 1rem 1.8rem;
+    background-image: url(../../../assets/imgs/state-bg.png);
+    background-size: cover;
+    background-position: center;
+    border-radius: 2rem;
+    margin-top: 0.8rem;
+}
+
+.itemValue {
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+    .itemWrapper {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.8rem;
+    }
+    .itemValue {
+        font-size: 1rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -6,7 +6,8 @@ function AdminControls(props) {
     const { adminToken, setAdminToken } = props
     const [contestGroups, setContestGroups] = useState([])
     const [time, setTime] = useState(null)
-    const defaultGameStatus = 'playing'
+    const defaultGameStatusGameChange = 'paused'
+    const defaultGameStatusQuestionChange = 'playing'
 
     // handle socket authen
     useEffect(() => {
@@ -64,7 +65,7 @@ function AdminControls(props) {
                         value = 0
                     } else {
                         // only change game status if game changed
-                        newContestGroup.state.currentStatus = defaultGameStatus
+                        newContestGroup.state.currentStatus = defaultGameStatusGameChange
                     }
                     break;
                 case 'next':
@@ -74,7 +75,7 @@ function AdminControls(props) {
                         value = newContestGroup.contest.gamePacks.length - 1
                     } else {
                         // only change game status if game changed
-                        newContestGroup.state.currentStatus = defaultGameStatus
+                        newContestGroup.state.currentStatus = defaultGameStatusGameChange
                     }
                     break;
                 default:
@@ -103,7 +104,7 @@ function AdminControls(props) {
                         value = 0
                     } else {
                         // only change game status if question changed
-                        newContestGroup.state.currentStatus = defaultGameStatus
+                        newContestGroup.state.currentStatus = defaultGameStatusQuestionChange
                     }
                     break;
                 case 'next':
@@ -114,7 +115,7 @@ function AdminControls(props) {
                         value = questionLength - 1
                     } else {
                         // only change game status if question changed
-                        newContestGroup.state.currentStatus = defaultGameStatus
+                        newContestGroup.state.currentStatus = defaultGameStatusQuestionChange
                     }
                     break;
                 default:

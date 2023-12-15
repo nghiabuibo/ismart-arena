@@ -1,0 +1,21 @@
+.leaderboardWrapper {
+    position: relative;
+    z-index: 1;
+    background-image: url(../../../assets/imgs/leaderboard-bg.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 25% 12% 12%;
+}
+
+.leaderboardTable {
+    color: #fff;
+    width: 100%;
+    min-height: 300px;
+    font-size: 0.8rem;
+}
+
+.leaderboardTable th,
+.leaderboardTable td {
+    padding: 0.5rem 0.8rem;
+}
