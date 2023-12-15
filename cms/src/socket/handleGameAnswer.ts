@@ -13,10 +13,10 @@ interface answer {
     timestamp: number,
     gamePackID: number,
     questionID: number,
-    answer: number | string,
+    answerID: number,
     timeLeft: number,
     score: number,
-    isCorrected: boolean
+    isCorrected: boolean,
 }
 
 async function handleGameAnswer({ strapi, io }, socket, answer) {
@@ -25,7 +25,7 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
         const decoded = jwtDecode<decodedToken>(token)
         const { id: userID } = decoded
         const answerObj = <answer>{}
-        answerObj.answer = answer
+        answerObj.answerID = answer
         answerObj.timestamp = Date.now()
         answerObj.timeLeft = 0
         answerObj.score = 0
@@ -33,7 +33,7 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
 
         // get user current contest
         const userContest = await getUserContest(userID, true)
-        
+
         // get user current game state
         const userGameState = await getUserGameState(userID)
         answerObj.timeLeft = userGameState.currentTimeLeft
@@ -42,37 +42,66 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
         const userResult = await getUserResult(userID)
         const userAnswers: any = userResult.answers ?? []
 
-        // add new answer to result answers
+        // add answer data
         const gamePacks = userContest ? userContest.gamePacks : []
         const currentGamePack = gamePacks[userGameState?.currentGamePack]
         const currentQuestion = currentGamePack?.questions[userGameState?.currentQuestion]
         answerObj.gamePackID = currentGamePack.id
         answerObj.questionID = currentQuestion.id
-
-        // score answers
-        let getAnswer
-        switch (currentGamePack.__component) {
-            case 'game-packs.quiz-packs':
-                [getAnswer] = currentQuestion.answers.filter(answer => answer.id === answerObj.answer)
-                break;
+        
+        // validate answer
+        if (userGameState.currentStatus !== 'playing') {
+            socket.emit('socket:error', { message: `Game is ${userGameState.currentStatus}!` })
+            return
         }
-        if (getAnswer.isCorrected) {
-            let score = currentQuestion.maxScore
-            if (currentQuestion.timeLimit) {
-                score = Math.round(score * (answerObj.timeLeft / currentQuestion.timeLimit))
+
+        if (userGameState.currentTimeLeft <= 0) {
+            socket.emit('socket:error', { message: `Time's up!` })
+            return
+        }
+
+        const [existedAnswer] = userAnswers.filter(answer => {
+            if (currentQuestion.allowMultipleAnswers) {
+                return answer.gamePackID === answerObj.gamePackID && answer.questionID === answerObj.questionID && answer.answerID === answerObj.answerID
             }
-            answerObj.score = score
-            answerObj.isCorrected = true
-        }
 
-        // update result answers and score
-        const [existedAnswer] = userAnswers.filter(answer => answer.gamePackID === answerObj.gamePackID && answer.questionID === answerObj.questionID)
+            return answer.gamePackID === answerObj.gamePackID && answer.questionID === answerObj.questionID
+        })
 
         if (existedAnswer) {
             socket.emit('socket:error', {message: 'Question already answered!'})
             return
         }
 
+        // validate found words - word find game
+        if (currentQuestion.foundWords && currentQuestion.foundWords.length && currentQuestion.foundWords.includes(answerObj.answerID)) {
+            socket.emit('socket:error', {message: 'Word found!'})
+            return
+        }
+
+        // score answers
+        // let getAnswer
+        // switch (currentGamePack.__component) {
+        //     case 'game-packs.quiz-packs':
+        //         [getAnswer] = currentQuestion.answers.filter(answer => answer.id === answerObj.answerID)
+        //         break;
+        // }
+
+        const [getAnswer] = currentQuestion.answers.filter(answer => answer.id === answerObj.answerID)
+
+        if (getAnswer?.isCorrected) {
+            let score = currentQuestion.maxScore
+            if (currentQuestion.timeLimit && currentQuestion.isRelativeScore) {
+                score = Math.round(score * (answerObj.timeLeft / currentQuestion.timeLimit))
+            }
+            if (score < 0) score = 0
+            if (score > currentQuestion.maxScore) score = currentQuestion.maxScore
+
+            answerObj.score = score
+            answerObj.isCorrected = true
+        }
+
+        // update result answers and score
         userAnswers.push(answerObj)
         const totalScore = userAnswers.reduce((total, answer) => total + answer.score, 0)
         await strapi.entityService.update('api::result.result', userResult.id, {

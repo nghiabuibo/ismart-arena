@@ -1,0 +1,13 @@
+.char {
+    width: 28px;
+    height: 28px;
+    display: inline-block;
+    line-height: 1;
+    border: 1px solid #ccc
+}
+.selected {
+    background-color: aqua;
+}
+.found {
+    background-color: blue;
+}

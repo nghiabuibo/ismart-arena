@@ -9,7 +9,8 @@ async function getLeaderboard(contest, group) {
         populate: 'user',
         sort: {
             totalScore: 'desc'
-        }
+        },
+        limit: 10
     })
     return {
         contest,

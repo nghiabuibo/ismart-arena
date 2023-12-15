@@ -44,15 +44,21 @@ function Games(props) {
         socket.on('game:updateGamePacks', setGamePacks)
         socket.on('game:updateGameState', setGameState)
         socket.on('game:updateResult', setUserResult)
-        socket.on('game:updateLeaderboard', (data) => { setLeaderboard(data.data) })
+        socket.on('game:updateLeaderboard', setLeaderboard)
+
+        socket.on('game:userJoined', () => {
+            socket.emit('game:getLeaderboard')
+        })
 
         socket.on('contest-setting:update', () => {
             socket.emit('game:getGameState')
+            socket.emit('game:getGamePacks')
         })
 
         socket.on('result:update', (data) => {
             socket.emit('game:getLeaderboard')
-
+            socket.emit('game:getGamePacks')
+            
             if (userResult.id !== data.data?.id) return
             const userResultMap = {
                 id: data.data.id,
@@ -69,6 +75,7 @@ function Games(props) {
             socket.off('game:updateGameState')
             socket.off('game:updateResult')
             socket.off('game:updateLeaderboard')
+            socket.off('game:userJoined')
             socket.off('contest-setting:update')
             socket.off('result:update')
             socket.off('socket:error')
@@ -82,16 +89,14 @@ function Games(props) {
     const currentGamePack = gamePacks[gameState?.currentGamePack]
     const currentQuestion = currentGamePack?.questions?.[gameState?.currentQuestion]
 
-    console.log('render')
-
     return (
         <div className="container">
             <div className="row">
-                <div className="col-lg-4">
+                <div className="col-lg-4 order-2 order-lg-1">
                     <Leaderboard leaderboard={leaderboard} />
                 </div>
-                <div className="col-lg-8">
-                    <GameState gameState={gameState} userResult={userResult} />
+                <div className="col-lg-8 order-1 order-lg-2">
+                    <GameState currentGamePack={currentGamePack} gameState={gameState} userResult={userResult} />
                     {
                         currentGamePack && currentQuestion
                             ?

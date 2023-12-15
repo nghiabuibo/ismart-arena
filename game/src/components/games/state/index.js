@@ -1,7 +1,11 @@
-function GameState() {
+function GameState(props) {
+    const { currentGamePack, gameState, userResult } = props
+
     return (
         <>
-            Game state
+            {gameState?.currentQuestion + 1}/{currentGamePack?.questions?.length}
+            {gameState?.currentTimeLeft ?? 0}
+            {userResult?.totalScore ?? 0}
         </>
     )
 }

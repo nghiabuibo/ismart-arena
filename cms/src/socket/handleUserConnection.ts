@@ -26,10 +26,8 @@ async function handleUserConnection({ strapi, io }, socket) {
         socket.emit('game:updateGamePacks', gamePacks)
         socket.emit('game:updateGameState', userGameState)
         socket.emit('game:updateResult', userResult)
-        io.raw({
-            event: 'game:updateLeaderboard',
-            data: leaderboard
-        })
+        socket.emit('game:updateLeaderboard', leaderboard)
+        socket.broadcast.emit('game:userJoined')
     } catch (err) {
         console.log(err)
     }

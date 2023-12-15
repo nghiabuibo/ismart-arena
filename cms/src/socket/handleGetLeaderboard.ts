@@ -15,7 +15,7 @@ async function handleGetLeaderboard({ strapi, io }, socket) {
 
         const leaderboard = await getUserLeaderboard(userID)
 
-        socket.emit('game:updateLeaderboard', { data: leaderboard })
+        socket.emit('game:updateLeaderboard', leaderboard)
     } catch (err) {
         console.log(err)
     }

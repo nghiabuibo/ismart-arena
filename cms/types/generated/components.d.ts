@@ -56,6 +56,7 @@ export interface GamePacksWordFindPacks extends Schema.Component {
   };
   attributes: {
     name: Attribute.String;
+    questions: Attribute.Component<'word-find.word-find-questions', true>;
   };
 }
 
@@ -86,6 +87,41 @@ export interface QuizQuizQuestions extends Schema.Component {
     answers: Attribute.Component<'quiz.quiz-answers', true>;
     maxScore: Attribute.Integer;
     timeLimit: Attribute.Integer & Attribute.DefaultTo<0>;
+    isRelativeScore: Attribute.Boolean & Attribute.DefaultTo<true>;
+    allowMultipleAnswers: Attribute.Boolean & Attribute.DefaultTo<false>;
+  };
+}
+
+export interface WordFindWordFindAnsswers extends Schema.Component {
+  collectionName: 'components_word_find_word_find_ansswers';
+  info: {
+    displayName: 'Word Find Answers';
+    description: '';
+  };
+  attributes: {
+    text: Attribute.String;
+    isCorrected: Attribute.Boolean & Attribute.DefaultTo<true>;
+  };
+}
+
+export interface WordFindWordFindQuestions extends Schema.Component {
+  collectionName: 'components_word_find_word_find_questions';
+  info: {
+    displayName: 'Word Find Questions';
+    description: '';
+  };
+  attributes: {
+    title: Attribute.String;
+    illustration: Attribute.Media;
+    answers: Attribute.Component<'word-find.word-find-ansswers', true>;
+    maxScore: Attribute.Integer;
+    timeLimit: Attribute.Integer;
+    isRelativeScore: Attribute.Boolean & Attribute.DefaultTo<false>;
+    allowMultipleAnswers: Attribute.Boolean & Attribute.DefaultTo<true>;
+    puzzle: Attribute.JSON;
+    puzzleDimension: Attribute.Integer & Attribute.DefaultTo<15>;
+    puzzleOrientation: Attribute.String &
+      Attribute.DefaultTo<'horizontal,vertical'>;
   };
 }
 
@@ -98,6 +134,8 @@ declare module '@strapi/types' {
       'game-packs.word-find-packs': GamePacksWordFindPacks;
       'quiz.quiz-answers': QuizQuizAnswers;
       'quiz.quiz-questions': QuizQuizQuestions;
+      'word-find.word-find-ansswers': WordFindWordFindAnsswers;
+      'word-find.word-find-questions': WordFindWordFindQuestions;
     }
   }
 }

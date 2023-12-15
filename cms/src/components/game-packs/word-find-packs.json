@@ -8,6 +8,12 @@
   "attributes": {
     "name": {
       "type": "string"
+    },
+    "questions": {
+      "displayName": "Word Find Questions",
+      "type": "component",
+      "repeatable": true,
+      "component": "word-find.word-find-questions"
     }
   }
 }

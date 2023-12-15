@@ -82,7 +82,7 @@ function AdminControls(props) {
             }
             newContestGroup.state.currentGamePack = value
             newContestGroup.state.currentQuestion = 0
-            newContestGroup.state.currentTimeLeft = newContestGroup.contest.gamePacks[value].questions?.[0].timeLimit ?? null
+            newContestGroup.state.currentTimeLeft = newContestGroup.contest.gamePacks[value].questions?.[0]?.timeLimit ?? null
             break;
         }
         socket.emit('admin:updateContestGroups', newContestGroups)

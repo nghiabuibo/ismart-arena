@@ -1,6 +1,5 @@
 function Leaderboard(props) {
     const { leaderboard } = props
-    console.log(leaderboard)
 
     const renderLeaderboard = leaderboard.leaderboard?.map((result, index) => {
         return (
@@ -29,7 +28,7 @@ function Leaderboard(props) {
                     {
                         renderLeaderboard ??
                         <tr>
-                            <td colspan={3}>No Leaderboard Data!</td>
+                            <td colSpan={3}>No Leaderboard Data!</td>
                         </tr>
                     }
                 </tbody>

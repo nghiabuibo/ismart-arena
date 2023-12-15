@@ -18,7 +18,6 @@ export default {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }) {
-
     // set contest groups game time countdown
     setInterval(async () => {
       const contestGroups = await getContestGroups()
@@ -45,7 +44,6 @@ export default {
       } catch (err) {
         console.log(err)
       }
-
     }, 1000)
   },
 };

@@ -1,6 +1,7 @@
 import handleAdminGetContestGroups from "../src/socket/admin/handleAdminGetContestGroups";
 import handleAdminUpdateContestGroups from "../src/socket/admin/handleAdminUpdateContestGroups";
 import handleGameAnswer from "../src/socket/handleGameAnswer";
+import handleGetGamePacks from "../src/socket/handleGetGamePacks";
 import handleGetGameState from "../src/socket/handleGetGameState";
 import handleGetLeaderboard from "../src/socket/handleGetLeaderboard";
 import handleUserConnection from "../src/socket/handleUserConnection";
@@ -26,6 +27,10 @@ export default ({ env }) => ({
                 {
                     name: 'game:answer',
                     handler: handleGameAnswer
+                },
+                {
+                    name: 'game:getGamePacks',
+                    handler: handleGetGamePacks
                 },
                 {
                     name: 'game:getGameState',
