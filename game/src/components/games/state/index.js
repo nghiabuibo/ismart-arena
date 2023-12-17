@@ -1,3 +1,4 @@
+import secondsToMinutesSeconds from '../../../utils/secondsToMinutesSeconds'
 import styles from './state.module.css'
 
 const GameStateItem = (props) => {
@@ -20,7 +21,7 @@ function GameState(props) {
                 <GameStateItem label="Question" value={`${gameState?.currentQuestion + 1}/${currentGamePack?.questions?.length}`} />
             </div>
             <div className="col-md-4 text-center">
-                <GameStateItem label="Time" value={gameState?.currentTimeLeft ?? 0} />
+                <GameStateItem label="Time" value={secondsToMinutesSeconds(gameState?.currentTimeLeft ?? 0)} />
             </div>
             <div className="col-md-4 text-center">
                 <GameStateItem label="Score" value={userResult?.totalScore ?? 0} />

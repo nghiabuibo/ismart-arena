@@ -5,13 +5,13 @@
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
-    padding: 25% 12% 12%;
+    padding: 20% 12% 10%;
+    min-height: 450px;
 }
 
 .leaderboardTable {
     color: #fff;
     width: 100%;
-    min-height: 300px;
     font-size: 0.8rem;
 }
 

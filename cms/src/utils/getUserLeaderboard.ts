@@ -9,6 +9,8 @@ async function getUserLeaderboard(userID) {
     const groupID = group.id
     const contestGroup = await getContestGroup(groupID)
 
+    if (!contestGroup) return
+
     const leaderboard = getLeaderboard(contestGroup.contest, contestGroup.group)
     return leaderboard
 }

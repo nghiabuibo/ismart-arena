@@ -23,9 +23,9 @@ function WordFind(props) {
         }
     }
 
-    const getOrientation = (e) => {
+    const getOrientation = (e, selectedEl) => {
         if (!selected.length) return
-        const lastSelected = selected[selected.length - 1]
+        const lastSelected = selectedEl ?? selected[selected.length - 1]
         const newSelected = getElementData(e)
         if (newSelected.x === lastSelected.x + 1 && newSelected.y === lastSelected.y) return 'horizontal'
         if (newSelected.x === lastSelected.x - 1 && newSelected.y === lastSelected.y) return 'horizontalBack'
@@ -38,33 +38,44 @@ function WordFind(props) {
         return
     }
 
-    const handleMouseDown = (e) => {
+    const handleStartSelect = (e) => {
         setIsSelecting(true)
         setSelected([getElementData(e)])
     }
 
-    const handleMouseEnter = (e) => {
+    const handleSelecting = (e) => {
         if (!isSelecting) return
 
         const newSelected = getElementData(e)
-        const selectedItemIndex = selected.findIndex(item => item.x === newSelected.x && item.y === newSelected.y)
+        if (!newSelected) return
+
+        const selectedItemIndex = selected.findIndex(item => item?.x === newSelected?.x && item?.y === newSelected?.y)
         if (selectedItemIndex === 0) {
             setOrientation('')
         }
+
+        // reset selected chars if player moved back
         if (selectedItemIndex >= 0) {
             setSelected(prevState => {
                 const updateSelected = [...prevState]
                 updateSelected.length = selectedItemIndex + 1
                 return updateSelected
             })
+            return
         }
-
-        if (orientation && orientation !== getOrientation(e)) return
+        
+        // if 3rd char is in orientation range with 1st char, reset selected
+        if (selected.length === 2 && getOrientation(e, selected[0])) {
+            selected.length = 1
+        }
+        
+        // lock selecting orientation
+        if (selected.length > 1 && orientation && orientation !== getOrientation(e)) return
 
         setOrientation(getOrientation(e))
         setSelected(prevState => {
             const updateSelected = [...prevState]
-            updateSelected.push(getElementData(e))
+            updateSelected.push(newSelected)
             return updateSelected
         })
     }
@@ -133,7 +144,7 @@ function WordFind(props) {
 
     // handle answer
     useEffect(() => {
-        const word = selected.map(item => item.letter.toLowerCase()).join('')
+        const word = selected.map(item => item?.letter.toLowerCase()).join('')
         const isWordFound = question.answers?.some(answer => answer.text === word)
         if (!isWordFound) return
 
@@ -147,7 +158,7 @@ function WordFind(props) {
 
     const renderPuzzle = question?.puzzle.map((cols, y) => {
         const rows = cols.map((row, x) => {
-            const isSelected = selected.some(item => item.x === x && item.y === y)
+            const isSelected = selected?.some(item => item?.x === x && item?.y === y)
             const isFound = found.some(item => item.x === x && item.y === y)
             return (
                 <td
@@ -155,10 +166,10 @@ function WordFind(props) {
                     data-x={x}
                     data-y={y}
                     className={`${isSelected ? styles.selected : ''} ${isFound ? styles.found : ''} ${styles.char}`}
-                    onMouseDown={handleMouseDown}
-                    onMouseEnter={handleMouseEnter}
-                    onTouchStart={handleMouseDown}
-                    onTouchMove={handleMouseEnter}
+                    onMouseDown={handleStartSelect}
+                    onMouseEnter={handleSelecting}
+                    onTouchStart={handleStartSelect}
+                    onTouchMove={handleSelecting}
                 >
                     {row}
                 </td>
@@ -170,7 +181,7 @@ function WordFind(props) {
     const renderFoundwords = question.foundWords?.map(foundWord => {
         const [answerMatch] = question.answers?.filter(answer => answer.id === foundWord)
         return (
-            <span className={styles.foundWord}>
+            <span key={answerMatch?.id} className={styles.foundWord}>
                 {
                     answerMatch?.text
                 }
