@@ -7,11 +7,11 @@ import styles from './Authentication.module.css'
 import Logo from "./Logo";
 
 function Authentication(props) {
-    const { setAccessToken } = props
+    const { setAccessToken, group } = props
     const [authInfo, setAuthInfo] = useState({
         name: '',
         phone: '',
-        email: '',
+        // email: '',
         grade: ''
     })
 
@@ -39,32 +39,34 @@ function Authentication(props) {
         setAccessToken(response.data.accessToken)
     }
 
+    const renderGradeOptions = group?.attributes?.grades?.split(',').map(grade => {
+        return (
+            <option key={grade} value={grade}>Khối {grade}</option>
+        )
+    })
+
     return (
         <>
             <Logo />
             <div className={`d-flex align-items-center justify-content-center ${styles.wrapper}`}>
-                <form onSubmit={handleSubmit} className={`d-flex flex-column gap-4 ${styles.registerForm}`}>
+                <form onSubmit={handleSubmit} className={`d-flex flex-column gap-4 ${styles.registerForm}`} autoComplete="off">
                     <div>
-                        <input type="text" name="name" value={authInfo.name} placeholder="Name" onChange={handleChange} required={true} />
+                        <input type="text" name="name" value={authInfo.name} placeholder="Họ và tên" onChange={handleChange} required={true} />
                     </div>
                     <div>
-                        <input type="tel" name="phone" value={authInfo.phone} placeholder="Phone" onChange={handleChange} required={true} />
+                        <input type="tel" name="phone" value={authInfo.phone} placeholder="Số điện thoại" onChange={handleChange} required={true} minLength={10} />
                     </div>
-                    <div>
+                    {/* <div>
                         <input type="email" name="email" value={authInfo.email} placeholder="Email" onChange={handleChange} required={true} />
-                    </div>
+                    </div> */}
                     <div>
                         <select name="grade" value={authInfo.grade} onChange={handleChange} required={true} >
-                            <option value="">Grade</option>
-                            <option value="1">Khối 1</option>
-                            <option value="2">Khối 2</option>
-                            <option value="3">Khối 3</option>
-                            <option value="4">Khối 4</option>
-                            <option value="5">Khối 5</option>
+                            <option value="">Khối lớp</option>
+                            {renderGradeOptions}
                         </select>
                     </div>
                     <div>
-                        <button type="submit">Start</button>
+                        <button type="submit">Bắt đầu</button>
                     </div>
                 </form>
             </div>

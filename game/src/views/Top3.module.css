@@ -1,5 +1,5 @@
 .top3Wrapper {
-    background-image: url(../assets/imgs/quiz-bg.png);
+    background-image: url(../assets/imgs/leaderboards-bg.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -34,25 +34,50 @@
     margin-right: auto;
 }
 
+@media (max-width: 991px) {
+    .top {
+        margin-bottom: 5rem;
+    }
+}
+
 .top.top1 {
     background-image: url(../assets/imgs/leader_1st.png);
 }
+
 .top.top2 {
     background-image: url(../assets/imgs/leader_2nd.png);
     width: 80%;
 }
+
 .top.top3 {
     background-image: url(../assets/imgs/leader_3rd.png);
     width: 70%;
 }
+
 .name {
     text-transform: uppercase;
     font-weight: 700;
     font-size: 1.8rem;
 }
+
 .position {
     font-weight: 700;
     margin-bottom: 54%;
     margin-top: 18%;
     font-size: 5rem;
+}
+
+.leaderboardBack {
+    border-radius: 2rem;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+    padding: 1rem 2rem;
+    background-color: var(--main-blue);
+    color: #fff;
+    font-weight: 700;
+    border: none;
+}
+
+.leaderboardBack:hover,
+.leaderboardBack:focus {
+    background-color: var(--dark-blue);
 }

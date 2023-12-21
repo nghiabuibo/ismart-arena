@@ -13,7 +13,7 @@ interface answer {
     timestamp: number,
     gamePackID: number,
     questionID: number,
-    answerID: number,
+    answer: number | string,
     timeLeft: number,
     score: number,
     isCorrected: boolean,
@@ -25,7 +25,7 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
         const decoded = jwtDecode<decodedToken>(token)
         const { id: userID } = decoded
         const answerObj = <answer>{}
-        answerObj.answerID = answer
+        answerObj.answer = answer
         answerObj.timestamp = Date.now()
         answerObj.timeLeft = 0
         answerObj.score = 0
@@ -48,7 +48,7 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
         const currentQuestion = currentGamePack?.questions[userGameState?.currentQuestion]
         answerObj.gamePackID = currentGamePack.id
         answerObj.questionID = currentQuestion.id
-        
+
         // validate answer
         if (userGameState.currentStatus !== 'playing') {
             socket.emit('socket:error', { message: `Game is ${userGameState.currentStatus}!` })
@@ -62,20 +62,20 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
 
         const [existedAnswer] = userAnswers.filter(answer => {
             if (currentQuestion.allowMultipleAnswers) {
-                return answer.gamePackID === answerObj.gamePackID && answer.questionID === answerObj.questionID && answer.answerID === answerObj.answerID
+                return answer.gamePackID === answerObj.gamePackID && answer.questionID === answerObj.questionID && answer.answer === answerObj.answer
             }
 
             return answer.gamePackID === answerObj.gamePackID && answer.questionID === answerObj.questionID
         })
 
         if (existedAnswer) {
-            socket.emit('socket:error', {message: 'Question already answered!'})
+            socket.emit('socket:error', { message: 'Question already answered!' })
             return
         }
 
         // validate found words - word find game
-        if (currentQuestion.foundWords && currentQuestion.foundWords.length && currentQuestion.foundWords.includes(answerObj.answerID)) {
-            socket.emit('socket:error', {message: 'Word found!'})
+        if (currentQuestion.foundWords && currentQuestion.foundWords.length && currentQuestion.foundWords.includes(answerObj.answer)) {
+            socket.emit('socket:error', { message: 'Word found!' })
             return
         }
 
@@ -83,11 +83,11 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
         // let getAnswer
         // switch (currentGamePack.__component) {
         //     case 'game-packs.quiz-packs':
-        //         [getAnswer] = currentQuestion.answers.filter(answer => answer.id === answerObj.answerID)
+        //         [getAnswer] = currentQuestion.answers.filter(answer => answer.id === answerObj.answer)
         //         break;
         // }
 
-        const [getAnswer] = currentQuestion.answers.filter(answer => answer.id === answerObj.answerID)
+        const [getAnswer] = currentQuestion.answers.filter(answer => answer.id === answerObj.answer || answer.text === answerObj.answer)
 
         if (getAnswer?.isCorrected) {
             let score = currentQuestion.maxScore
@@ -104,10 +104,12 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
         // update result answers and score
         userAnswers.push(answerObj)
         const totalScore = userAnswers.reduce((total, answer) => total + answer.score, 0)
+        const totalCorrected = userAnswers.filter(answer => answer.isCorrected).length
         await strapi.entityService.update('api::result.result', userResult.id, {
             data: {
                 answers: userAnswers,
-                totalScore
+                totalScore,
+                totalCorrected
             }
         })
     } catch (err) {

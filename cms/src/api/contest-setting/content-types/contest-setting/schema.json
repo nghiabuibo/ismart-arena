@@ -16,6 +16,13 @@
       "type": "component",
       "repeatable": true,
       "component": "contest.contest-group"
+    },
+    "bgm": {
+      "allowedTypes": [
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

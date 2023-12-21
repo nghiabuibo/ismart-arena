@@ -7,11 +7,19 @@ async function getLeaderboard(contest, group) {
             group: group.id
         },
         populate: 'user',
-        sort: {
-            totalScore: 'desc'
-        },
+        sort: [
+            { totalCorrected: 'desc' },
+            { totalScore: 'desc' }
+        ],
         limit: -1
     })
+
+    for (const i in leaderboard) {
+        const entry:any = leaderboard[i]
+        const userPhone = `******${entry.user.phone.substr(entry.user.phone.length - 4)}`
+        entry.user.phone = userPhone
+    }
+    
     return {
         contest,
         group,

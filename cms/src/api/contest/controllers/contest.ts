@@ -13,7 +13,9 @@ export default factories.createCoreController('api::contest.contest', ({ strapi 
             if (!ctx.request.body.userID) {
                 const { phone } = data
                 const roleID = await getRoleIDByName('authenticated')
-                data.username = crypto.randomUUID()
+                const randomUUID = crypto.randomUUID()
+                data.username = randomUUID
+                data.email = `${randomUUID}@gmail.com`
                 data.password = phone
                 data.role = roleID
                 data.provider = 'local'

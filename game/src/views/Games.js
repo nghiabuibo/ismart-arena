@@ -3,11 +3,12 @@ import socket from "../utils/socket";
 import handleRequestError from "../utils/handleRequestError";
 import Quiz from "../components/games/quiz";
 import WordFind from "../components/games/wordfind";
-import Leaderboard from "../components/games/leaderboard";
-import GameState from "../components/games/state";
+import Leaderboard from "../components/leaderboard";
+import GameState from "../components/state";
 import Waiting from "./Waiting";
 import Logo from "./Logo";
 import Top3 from "./Top3";
+import Leaderboards from "./Leaderboards";
 // import axios from "axios";
 
 function Games(props) {
@@ -16,6 +17,7 @@ function Games(props) {
     const [gameState, setGameState] = useState({})
     const [userResult, setUserResult] = useState({})
     const [leaderboard, setLeaderboard] = useState([])
+    const [showTop3, setShowTop3] = useState(false)
 
     // handle socket authen
     useEffect(() => {
@@ -100,7 +102,7 @@ function Games(props) {
                 {
                     gameState?.currentStatus === 'ended'
                         ?
-                        <Top3 leaderboard={leaderboard} />
+                        showTop3 ? <Top3 leaderboard={leaderboard} setShowTop3={setShowTop3} /> : <Leaderboards leaderboard={leaderboard} setShowTop3={setShowTop3} />
                         :
                         !gameState?.currentStatus || gameState?.currentStatus === 'paused'
                             ?

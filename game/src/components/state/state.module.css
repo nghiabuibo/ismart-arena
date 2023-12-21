@@ -1,8 +1,8 @@
 .itemWrapper {
     color: #fff;
     padding: 1rem 1.8rem;
-    background-image: url(../../../assets/imgs/state-bg.png);
-    background-size: cover;
+    background-image: url(../../assets/imgs/state-bg.png);
+    background-size: 200%;
     background-position: center;
     border-radius: 2rem;
     margin-top: 0.8rem;

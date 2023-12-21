@@ -38,6 +38,14 @@
     "allowMultipleAnswers": {
       "type": "boolean",
       "default": false
+    },
+    "answerType": {
+      "type": "enumeration",
+      "enum": [
+        "select",
+        "input"
+      ],
+      "default": "select"
     }
   }
 }

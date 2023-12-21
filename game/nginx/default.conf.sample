@@ -14,7 +14,7 @@ server {
     ssl_certificate /ssl/localhost.pem;
     ssl_certificate_key /ssl/localhost-key.pem;
 
-    client_max_body_size 200M;
+    client_max_body_size 64M;
 
     location / {
         root   /usr/share/nginx/html;

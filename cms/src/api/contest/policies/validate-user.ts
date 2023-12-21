@@ -13,15 +13,15 @@ export default async (ctx, config, { strapi }) => {
 
     if (!allowedGrades.includes(grade)) throw new ApplicationError(`Invalid grade data!`)
 
-    const { email, phone } = data
+    const { phone } = data
     const [user] = await strapi.entityService.findMany('plugin::users-permissions.user', {
         limit: 1,
-        filters: { email }
+        filters: { phone }
     })
 
     if (user) {
-        const isCorrectedPassword = await strapi.plugin('users-permissions').services.user.validatePassword(phone, user.password)
-        if (!isCorrectedPassword) throw new ApplicationError('Incorrect phone number!')
+        // const isCorrectedPassword = await strapi.plugin('users-permissions').services.user.validatePassword(phone, user.password)
+        // if (!isCorrectedPassword) throw new ApplicationError('Incorrect phone number!')
         
         ctx.request.body.userID = user.id
         ctx.request.body.data.grade = user.grade

@@ -89,6 +89,8 @@ export interface QuizQuizQuestions extends Schema.Component {
     timeLimit: Attribute.Integer & Attribute.DefaultTo<0>;
     isRelativeScore: Attribute.Boolean & Attribute.DefaultTo<true>;
     allowMultipleAnswers: Attribute.Boolean & Attribute.DefaultTo<false>;
+    answerType: Attribute.Enumeration<['select', 'input']> &
+      Attribute.DefaultTo<'select'>;
   };
 }
 

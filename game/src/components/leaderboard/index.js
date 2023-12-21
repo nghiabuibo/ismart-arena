@@ -9,6 +9,7 @@ function Leaderboard(props) {
             <tr key={result.id}>
                 <td className='text-center'>{index + 1}</td>
                 <td>{result.user?.name}</td>
+                <td className='text-center'>{result.totalCorrected ?? 0}</td>
                 <td className='text-center'>{result.totalScore ?? 0}</td>
             </tr>
         )
@@ -25,6 +26,7 @@ function Leaderboard(props) {
                     <tr>
                         <th className='text-center'>#</th>
                         <th>Name</th>
+                        <th className='text-center'>✓</th>
                         <th className='text-center'>Score</th>
                     </tr>
                 </thead>
@@ -32,7 +34,7 @@ function Leaderboard(props) {
                     {
                         renderLeaderboard ??
                         <tr>
-                            <td className="text-center" colSpan={3}>No Leaderboard Data!</td>
+                            <td className="text-center" colSpan={4}>No Leaderboard Data!</td>
                         </tr>
                     }
                 </tbody>

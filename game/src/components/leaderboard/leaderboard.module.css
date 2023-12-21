@@ -1,12 +1,13 @@
 .leaderboardWrapper {
     position: relative;
     z-index: 1;
-    background-image: url(../../../assets/imgs/leaderboard-bg.png);
+    background-image: url(../../assets/imgs/leaderboard-bg.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
-    padding: 20% 12% 10%;
+    padding: 20% 9% 10%;
     min-height: 450px;
+    width: 100%;
 }
 
 .leaderboardTable {

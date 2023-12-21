@@ -1,5 +1,5 @@
 async function getContestGroups(isAdmin = false) {
-    const populate: any = ['contestGroups.group', 'contestGroups.contest', 'contestGroups.state']
+    const populate: any = ['contestGroups.group', 'contestGroups.contest.titleImage', 'contestGroups.state']
     if (isAdmin) {
         populate.push('contestGroups.contest.gamePacks.questions')
     }

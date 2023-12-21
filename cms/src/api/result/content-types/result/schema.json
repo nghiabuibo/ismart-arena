@@ -33,6 +33,9 @@
     },
     "answers": {
       "type": "json"
+    },
+    "totalCorrected": {
+      "type": "integer"
     }
   }
 }

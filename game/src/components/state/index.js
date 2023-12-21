@@ -1,4 +1,4 @@
-import secondsToMinutesSeconds from '../../../utils/secondsToMinutesSeconds'
+import secondsToMinutesSeconds from '../../utils/secondsToMinutesSeconds'
 import styles from './state.module.css'
 
 const GameStateItem = (props) => {

@@ -1,0 +1,118 @@
+.titleImage {
+    max-width: 35% !important;
+    margin: auto;
+    display: block;
+    margin-bottom: 3rem;
+}
+
+@media (max-width: 767px) {
+    .titleImage {
+        max-width: 50%;
+    }
+}
+
+.leaderboardWrapper {
+    background-image: url(../assets/imgs/leaderboards-bg.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 2rem;
+}
+
+.leaderboardGroup {
+    background-image: url(../assets/imgs/title-bg.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    max-width: 300px;
+    padding: 2.2rem 5.5rem 2rem 5rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #fff;
+    margin: auto;
+    margin-bottom: 2rem;
+}
+
+.leaderboardEntry {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    overflow: hidden;
+}
+
+.leaderboardRanking {
+    padding: 1rem 2rem;
+    border-radius: 0 2rem 2rem 0;
+    background: rgb(0, 183, 231);
+    background: linear-gradient(120deg, rgba(0, 183, 231, 1) 0%, rgba(0, 115, 203, 1) 100%);
+    min-width: 95px;
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    .leaderboardRanking {
+        padding: 0.75rem 1.5rem;
+        min-width: 80px;
+    }
+}
+
+.leaderboardInfo {
+    position: relative;
+    width: 100%;
+}
+
+.leaderboardInfo::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -13px;
+    width: 100%;
+    height: 2px;
+    background-color: rgb(255 255 255 / 0.8);
+}
+
+.leaderboardName {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.leaderboardCorrected {
+    min-width: 40px;
+}
+
+.leaderboardRankingWrapper {
+    column-count: 3;
+}
+
+@media (max-width: 1199px) {
+    .leaderboardRankingWrapper {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 767px) {
+    .leaderboardRankingWrapper {
+        column-count: 1;
+    }
+
+}
+
+.showTop3 {
+    border-radius: 2rem;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+    padding: 1rem 2rem;
+    background-color: var(--main-blue);
+    color: #fff;
+    font-weight: 700;
+    border: none;
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+}
+
+.showTop3:hover,
+.showTop3:focus {
+    background-color: var(--dark-blue);
+}
