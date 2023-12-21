@@ -91,6 +91,12 @@ export interface QuizQuizQuestions extends Schema.Component {
     allowMultipleAnswers: Attribute.Boolean & Attribute.DefaultTo<false>;
     answerType: Attribute.Enumeration<['select', 'input']> &
       Attribute.DefaultTo<'select'>;
+    col: Attribute.Integer &
+      Attribute.SetMinMax<{
+        min: 1;
+        max: 12;
+      }> &
+      Attribute.DefaultTo<6>;
   };
 }
 

@@ -26,13 +26,18 @@ function Quiz(props) {
                 if (!gameState?.currentTimeLeft && gameState?.correctedAnswers?.some(correctedAnswer => correctedAnswer.id === answer.id)) correctedAnswer = true
 
                 return (
-                    <div className='col-6' key={answer.id}>
+                    <div className={`col-md-${question.col ?? 6}`} key={answer.id}>
                         <button
                             className={`w-100 h-100 ${styles.answerBtn} ${isSelected ? styles.selected : ''} ${isCorrected ? styles.corrected : ''} ${isInCorrected ? styles.inCorrected : ''} ${correctedAnswer ? styles.corrected : ''}`}
                             key={answer.id}
                             onClick={() => handleAnswer(answer.id)}
                         >
                             {answer.text}
+
+                            {
+                                answer.media?.url &&
+                                <img src={process.env.REACT_APP_CMS_URL + answer.media.url} className={`img-fluid mt-2`} alt='Answer Media' />
+                            }
                         </button>
                     </div>
                 )
@@ -85,10 +90,10 @@ function Quiz(props) {
             }
 
             <div className={styles.quizContent}>
-                <div className={!isShowLeaderBoard ? styles.questionBg : ''}>
+                <div className={`text-center ${!isShowLeaderBoard ? styles.questionBg : ''}`}>
                     {
                         question.title &&
-                        <div className={`text-white text-center fw-bold fs-2 p-3 mb-3 ${styles.questionTitle}`}>{question.title}</div>
+                        <div className={`text-white fw-bold fs-2 p-3 mb-3 ${styles.questionTitle}`}>{question.title}</div>
                     }
 
                     {

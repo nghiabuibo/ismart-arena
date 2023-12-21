@@ -87,7 +87,13 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
         //         break;
         // }
 
-        const [getAnswer] = currentQuestion.answers.filter(answer => answer.id === answerObj.answer || answer.text === answerObj.answer)
+        const [getAnswer] = currentQuestion.answers.filter(answer => {
+            if (currentQuestion.answerType === 'input') {
+                return answer.text === answerObj.answer
+            }
+
+            return answer.id === answerObj.answer
+        })
 
         if (getAnswer?.isCorrected) {
             let score = currentQuestion.maxScore

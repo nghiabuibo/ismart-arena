@@ -12,7 +12,7 @@ async function getUserContest(userID, showAnswer = false) {
 
     if (!contestID) return
 
-    const populate = 'gamePacks.questions.illustration, gamePacks.questions.answers'
+    const populate = 'gamePacks.questions.illustration, gamePacks.questions.answers.media'
     const contest = await strapi.entityService.findOne('api::contest.contest', contestID, { populate })
 
     if (!contest) return
