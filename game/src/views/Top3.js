@@ -3,9 +3,10 @@ import styles from "./Top3.module.css"
 
 function Top3(props) {
     const { leaderboard, setShowTop3 } = props
-    if (leaderboard.leaderboard) leaderboard.leaderboard.length = 3
 
     const renderTop3 = leaderboard?.leaderboard?.map((top, index) => {
+        if (index >= 3) return false
+
         let order = 'order-lg-3'
         if (index === 0) order = 'order-lg-2'
         if (index === 1) order = 'order-lg-1'

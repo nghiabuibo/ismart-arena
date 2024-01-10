@@ -5,8 +5,9 @@ import styles from './Leaderboards.module.css'
 function Leaderboards(props) {
     const { leaderboard, setShowTop3 } = props
 
-    if (leaderboard?.leaderboard) leaderboard.leaderboard.length = 50
     const renderLeaderboard = leaderboard?.leaderboard?.map((entry, index) => {
+        if (index >= 50) return false
+
         return (
             <div key={entry.id} className={`d-flex align-items-center gap-3 mb-3 ${styles.leaderboardEntry}`}>
                 <div className={`${styles.leaderboardRanking}`}>{index + 1}.</div>

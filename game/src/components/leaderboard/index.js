@@ -3,8 +3,9 @@ import styles from './leaderboard.module.css'
 function Leaderboard(props) {
     const { leaderboard } = props
 
-    if (leaderboard.leaderboard) leaderboard.leaderboard.length = 10
     const renderLeaderboard = leaderboard.leaderboard?.map((result, index) => {
+        if (index >= 10) return false
+
         return (
             <tr key={result.id}>
                 <td className='text-center'>{index + 1}</td>
