@@ -5,7 +5,7 @@ import handleRequestError from "../utils/handleRequestError"
 function AdminAuthen(props) {
     const { setAdminToken } = props
     const [authInfo, setAuthInfo] = useState({
-        identifier: '',
+        email: '',
         password: '',
     })
 
@@ -19,7 +19,7 @@ function AdminAuthen(props) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const apiUrl = process.env.REACT_APP_API_URL
-        const endpoint = '/auth/local'
+        const endpoint = '/users-permissions/api-token'
         const response = await axios.post(apiUrl + endpoint, authInfo).catch(handleRequestError)
 
         if (!response) return;
@@ -36,7 +36,7 @@ function AdminAuthen(props) {
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <input type="text" name="identifier" value={authInfo.identifier} placeholder="Username/Email" onChange={handleChange} />
+                <input type="text" name="email" value={authInfo.email} placeholder="Email" onChange={handleChange} />
             </div>
             <div>
                 <input type="password" name="password" value={authInfo.password} placeholder="Password" onChange={handleChange} />

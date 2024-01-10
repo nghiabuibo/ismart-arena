@@ -12,6 +12,7 @@ function AdminControls(props) {
     // handle socket authen
     useEffect(() => {
         socket.auth = {
+            strategy: 'apiToken',
             token: adminToken
         }
         socket.connect()

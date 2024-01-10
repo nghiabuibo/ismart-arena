@@ -775,6 +775,36 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiAdminSettingAdminSetting extends Schema.SingleType {
+  collectionName: 'admin_settings';
+  info: {
+    singularName: 'admin-setting';
+    pluralName: 'admin-settings';
+    displayName: 'Admin Settings';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    apiToken: Attribute.Text;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::admin-setting.admin-setting',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::admin-setting.admin-setting',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiContestContest extends Schema.CollectionType {
   collectionName: 'contests';
   info: {
@@ -789,7 +819,11 @@ export interface ApiContestContest extends Schema.CollectionType {
   attributes: {
     name: Attribute.String;
     gamePacks: Attribute.DynamicZone<
-      ['game-packs.word-find-packs', 'game-packs.quiz-packs']
+      [
+        'game-packs.word-find-packs',
+        'game-packs.quiz-packs',
+        'game-packs.match-image-packs'
+      ]
     >;
     titleImage: Attribute.Media;
     createdAt: Attribute.DateTime;
@@ -937,6 +971,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::admin-setting.admin-setting': ApiAdminSettingAdminSetting;
       'api::contest.contest': ApiContestContest;
       'api::contest-setting.contest-setting': ApiContestSettingContestSetting;
       'api::group.group': ApiGroupGroup;
