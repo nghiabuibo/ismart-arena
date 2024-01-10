@@ -49,8 +49,8 @@
     },
     "col": {
       "type": "integer",
-      "default": 6,
-      "max": 12,
+      "default": 2,
+      "max": 6,
       "min": 1
     }
   }

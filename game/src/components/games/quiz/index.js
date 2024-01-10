@@ -25,8 +25,30 @@ function Quiz(props) {
                 if (!gameState?.currentTimeLeft && userSelected && !userSelected?.isCorrected) isInCorrected = true
                 if (!gameState?.currentTimeLeft && gameState?.correctedAnswers?.some(correctedAnswer => correctedAnswer.id === answer.id)) correctedAnswer = true
 
+                let classCol = 6
+                switch (question.col) {
+                    case 1:
+                        classCol = 12
+                        break;
+                    case 2:
+                        classCol = 6
+                        break;
+                    case 3:
+                        classCol = 4
+                        break;
+                    case 4:
+                        classCol = 3
+                        break;
+                    case 6:
+                        classCol = 2
+                        break;
+
+                    default:
+                        break;
+                }
+
                 return (
-                    <div className={`col-md-${question.col ?? 6}`} key={answer.id}>
+                    <div className={`col-md-${classCol}`} key={answer.id}>
                         <button
                             className={`w-100 h-100 ${styles.answerBtn} ${isSelected ? styles.selected : ''} ${isCorrected ? styles.corrected : ''} ${isInCorrected ? styles.inCorrected : ''} ${correctedAnswer ? styles.corrected : ''}`}
                             key={answer.id}
@@ -50,7 +72,7 @@ function Quiz(props) {
             const userSubmmittedAll = userResult?.answers?.filter(userAnswer => userAnswer.gamePackID === gamePack.id && userAnswer.questionID === question.id) ?? []
             const userSubmmittedCorrected = userSubmmittedAll.filter(userSubmmitted => userSubmmitted.isCorrected)
             const [userSubmmitted] = userSubmmittedCorrected.length ? userSubmmittedCorrected : userSubmmittedAll
-            
+
             if (
                 (userSubmmitted && !question.allowMultipleAnswers)
                 || (userSubmmitted && question.allowMultipleAnswers && userSubmmitted.isCorrected)
