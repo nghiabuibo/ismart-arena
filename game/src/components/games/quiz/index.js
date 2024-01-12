@@ -1,6 +1,7 @@
 import styles from './quiz.module.css'
 import quizBg from '../../../assets/imgs/quiz-bg.png'
 import { useState } from 'react'
+import { getMediaUrl } from '../../../utils/media'
 
 function Quiz(props) {
     const { gamePack, question, userResult, gameState, handleAnswer, isShowLeaderBoard } = props
@@ -120,7 +121,17 @@ function Quiz(props) {
 
                     {
                         question.illustration &&
-                        <img className={`mb-3 img-fluid`} src={process.env.REACT_APP_CMS_URL + question.illustration.url} alt="Illustration" />
+                        <>
+                            {
+                                question.illustration.mime?.includes('image') &&
+                                <img className={`mb-3 img-fluid`} src={getMediaUrl(question.illustration)} alt="Illustration" />
+                            }
+
+                            {
+                                question.illustration.mime?.includes('audio') &&
+                                <audio className={`mb-3`} src={getMediaUrl(question.illustration)} controls={true} autoPlay={true}></audio>
+                            }
+                        </>
                     }
                 </div>
 

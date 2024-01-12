@@ -10,6 +10,7 @@ import Logo from "./Logo";
 import Top3 from "./Top3";
 import Leaderboards from "./Leaderboards";
 import Matching from "../components/games/matching";
+import { toast } from "react-toastify";
 // import axios from "axios";
 
 function Games(props) {
@@ -90,7 +91,10 @@ function Games(props) {
 
     const handleAnswer = (answer) => {
         // skip if time's up
-        if (gameState?.currentTimeLeft <= 0) return
+        if (gameState?.currentTimeLeft <= 0) {
+            toast.error(`Time's up`, { theme: 'colored' })
+            return
+        }
 
         socket.emit('game:answer', answer)
     }

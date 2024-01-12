@@ -1,7 +1,8 @@
 {
   "collectionName": "components_matching_matching_questions",
   "info": {
-    "displayName": "Matching Questions"
+    "displayName": "Matching Questions",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -9,13 +10,14 @@
       "type": "string"
     },
     "illustration": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "answers": {
       "displayName": "Matching Answers",
@@ -27,7 +29,8 @@
       "type": "integer"
     },
     "timeLimit": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "isRelativeScore": {
       "type": "boolean",

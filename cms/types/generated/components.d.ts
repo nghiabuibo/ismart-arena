@@ -87,13 +87,14 @@ export interface MatchingMatchingQuestions extends Schema.Component {
   collectionName: 'components_matching_matching_questions';
   info: {
     displayName: 'Matching Questions';
+    description: '';
   };
   attributes: {
     title: Attribute.String;
     illustration: Attribute.Media;
     answers: Attribute.Component<'matching.matching-answers', true>;
     maxScore: Attribute.Integer;
-    timeLimit: Attribute.Integer;
+    timeLimit: Attribute.Integer & Attribute.DefaultTo<0>;
     isRelativeScore: Attribute.Boolean & Attribute.DefaultTo<false>;
     allowMultipleAnswers: Attribute.Boolean & Attribute.DefaultTo<true>;
     col: Attribute.Integer & Attribute.DefaultTo<5>;
@@ -163,7 +164,7 @@ export interface WordFindWordFindQuestions extends Schema.Component {
     illustration: Attribute.Media;
     answers: Attribute.Component<'word-find.word-find-ansswers', true>;
     maxScore: Attribute.Integer;
-    timeLimit: Attribute.Integer;
+    timeLimit: Attribute.Integer & Attribute.DefaultTo<0>;
     isRelativeScore: Attribute.Boolean & Attribute.DefaultTo<false>;
     allowMultipleAnswers: Attribute.Boolean & Attribute.DefaultTo<true>;
     puzzle: Attribute.JSON;

@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react"
 import styles from "./matching.module.css"
+import { toast } from "react-toastify"
+import { getMediaUrl } from "../../../utils/media"
 
 const ImageCard = (props) => {
     const { src, width, isSelected, handleClick } = props
@@ -37,7 +39,10 @@ function Matching(props) {
 
     const handleCardClick = (id, index) => {
         // skip if time's up
-        if (gameState?.currentTimeLeft <= 0) return
+        if (gameState?.currentTimeLeft <= 0) {
+            toast.error(`Time's up`, { theme: 'colored' })
+            return
+        }
 
         // skip if already selected 2
         if (answerSelected.length >= 2) return
@@ -81,7 +86,7 @@ function Matching(props) {
     }, [answerString])
 
     const renderAnswers = answersClone.map((answer, index) => {
-        const src = answer.media.url.includes('http') ? answer.media.url : process.env.REACT_APP_CMS_URL + answer.media.url
+        const src = getMediaUrl(answer.media)
         const isSelected = answerSelected.some(selected => selected.id === answer.id && selected.index === index) || userAnswers?.some(userAnswer => userAnswer.answer === answer.id)
 
         return (

@@ -30,7 +30,8 @@
       "type": "integer"
     },
     "timeLimit": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "isRelativeScore": {
       "type": "boolean",
