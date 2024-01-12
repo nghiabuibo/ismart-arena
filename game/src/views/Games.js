@@ -9,6 +9,7 @@ import Waiting from "./Waiting";
 import Logo from "./Logo";
 import Top3 from "./Top3";
 import Leaderboards from "./Leaderboards";
+import Matching from "../components/games/matching";
 // import axios from "axios";
 
 function Games(props) {
@@ -88,13 +89,17 @@ function Games(props) {
     }, [userResult])
 
     const handleAnswer = (answer) => {
+        // skip if time's up
+        if (gameState?.currentTimeLeft <= 0) return
+
         socket.emit('game:answer', answer)
     }
 
     const currentGamePack = gamePacks[gameState?.currentGamePack]
     const currentQuestion = currentGamePack?.questions?.[gameState?.currentQuestion]
 
-    const isShowLeaderBoard = currentGamePack?.__component !== 'game-packs.quiz-packs' || gameState?.currentTimeLeft <= 0
+    const hideLeaderBoardGames = ['game-packs.quiz-packs']
+    const isShowLeaderBoard = !hideLeaderBoardGames.includes(currentGamePack?.__component) || gameState?.currentTimeLeft <= 0
 
     return (
         <div className="container">
@@ -135,7 +140,11 @@ function Games(props) {
                                                 }
                                                 {
                                                     currentGamePack.__component === 'game-packs.word-find-packs' &&
-                                                    <WordFind question={currentQuestion} handleAnswer={handleAnswer} />
+                                                    <WordFind question={currentQuestion} gameState={gameState} handleAnswer={handleAnswer} />
+                                                }
+                                                {
+                                                    currentGamePack.__component === 'game-packs.matching-packs' &&
+                                                    <Matching gamePack={currentGamePack} question={currentQuestion} userResult={userResult} gameState={gameState} handleAnswer={handleAnswer} />
                                                 }
                                             </>
                                             :

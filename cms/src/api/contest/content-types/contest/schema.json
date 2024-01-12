@@ -19,7 +19,8 @@
       "type": "dynamiczone",
       "components": [
         "game-packs.word-find-packs",
-        "game-packs.quiz-packs"
+        "game-packs.quiz-packs",
+        "game-packs.matching-packs"
       ]
     },
     "titleImage": {

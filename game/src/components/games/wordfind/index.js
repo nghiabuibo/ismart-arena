@@ -150,10 +150,14 @@ function WordFind(props) {
 
         clearSelected()
         const [answer] = question.answers?.filter(answer => answer.text === word)
-        if (!answer) return
-        if (question.foundWords?.includes(answer.id)) return
-        handleAnswer(answer.id)
 
+        // skip if answer incorrrect
+        if (!answer) return
+        
+        // skip if already answered
+        if (question.foundWords?.includes(answer.id)) return
+
+        handleAnswer(answer.id)
     }, [selected, question.answers, question.foundWords, handleAnswer])
 
     const renderPuzzle = question?.puzzle.map((cols, y) => {

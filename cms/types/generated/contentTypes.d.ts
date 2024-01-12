@@ -822,7 +822,7 @@ export interface ApiContestContest extends Schema.CollectionType {
       [
         'game-packs.word-find-packs',
         'game-packs.quiz-packs',
-        'game-packs.match-image-packs'
+        'game-packs.matching-packs'
       ]
     >;
     titleImage: Attribute.Media;

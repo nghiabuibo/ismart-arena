@@ -36,6 +36,17 @@ export interface ContestState extends Schema.Component {
   };
 }
 
+export interface GamePacksMatchingPacks extends Schema.Component {
+  collectionName: 'components_game_packs_matching_packs';
+  info: {
+    displayName: 'Matching Packs';
+  };
+  attributes: {
+    name: Attribute.String;
+    questions: Attribute.Component<'matching.matching-questions', true>;
+  };
+}
+
 export interface GamePacksQuizPacks extends Schema.Component {
   collectionName: 'components_game_packs_quiz_packs';
   info: {
@@ -49,7 +60,7 @@ export interface GamePacksQuizPacks extends Schema.Component {
 }
 
 export interface GamePacksWordFindPacks extends Schema.Component {
-  collectionName: 'components_wordfind_word_find_packs';
+  collectionName: 'components_game_packs_word_find_packs';
   info: {
     displayName: 'Word Find Packs';
     description: '';
@@ -57,6 +68,35 @@ export interface GamePacksWordFindPacks extends Schema.Component {
   attributes: {
     name: Attribute.String;
     questions: Attribute.Component<'word-find.word-find-questions', true>;
+  };
+}
+
+export interface MatchingMatchingAnswers extends Schema.Component {
+  collectionName: 'components_matching_matching_answers';
+  info: {
+    displayName: 'Matching Answers';
+  };
+  attributes: {
+    text: Attribute.String;
+    media: Attribute.Media;
+    isCorrected: Attribute.Boolean & Attribute.DefaultTo<true>;
+  };
+}
+
+export interface MatchingMatchingQuestions extends Schema.Component {
+  collectionName: 'components_matching_matching_questions';
+  info: {
+    displayName: 'Matching Questions';
+  };
+  attributes: {
+    title: Attribute.String;
+    illustration: Attribute.Media;
+    answers: Attribute.Component<'matching.matching-answers', true>;
+    maxScore: Attribute.Integer;
+    timeLimit: Attribute.Integer;
+    isRelativeScore: Attribute.Boolean & Attribute.DefaultTo<false>;
+    allowMultipleAnswers: Attribute.Boolean & Attribute.DefaultTo<true>;
+    col: Attribute.Integer & Attribute.DefaultTo<5>;
   };
 }
 
@@ -138,8 +178,11 @@ declare module '@strapi/types' {
     export interface Components {
       'contest.contest-group': ContestContestGroup;
       'contest.state': ContestState;
+      'game-packs.matching-packs': GamePacksMatchingPacks;
       'game-packs.quiz-packs': GamePacksQuizPacks;
       'game-packs.word-find-packs': GamePacksWordFindPacks;
+      'matching.matching-answers': MatchingMatchingAnswers;
+      'matching.matching-questions': MatchingMatchingQuestions;
       'quiz.quiz-answers': QuizQuizAnswers;
       'quiz.quiz-questions': QuizQuizQuestions;
       'word-find.word-find-ansswers': WordFindWordFindAnsswers;
