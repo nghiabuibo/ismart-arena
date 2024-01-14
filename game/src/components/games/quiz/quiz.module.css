@@ -35,6 +35,12 @@
     min-height: 300px;
 }
 
+.answer {
+    text-align: center;
+    font-weight: 700;
+    color: #5fe771;
+}
+
 .answerBtn {
     border: none;
     outline: none;
@@ -66,7 +72,7 @@
     font-size: 110%;
     text-align: center;
     padding-left: 3.2rem;
-    padding-right: 5.5rem;
+    padding-right: 4.6rem;
     background-color: transparent;
     background-image: url(../../../assets/imgs/quiz-answer-bg.png);
     background-size: 100% 100%;

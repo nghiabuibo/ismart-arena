@@ -12,7 +12,7 @@ async function getUserContest(userID, showAnswer = false) {
 
     if (!contestID) return
 
-    const populate = 'gamePacks.questions.illustration, gamePacks.questions.answers.media'
+    const populate = 'gamePacks.questions.illustration, gamePacks.questions.answers.media, gamePacks.coverImage'
     const contest = await strapi.entityService.findOne('api::contest.contest', contestID, { populate })
 
     if (!contest) return
@@ -46,7 +46,7 @@ async function getUserContest(userID, showAnswer = false) {
         }
     }
 
-    if (showAnswer) return contest
+    if (showAnswer || !gameState.currentTimeLeft) return contest
 
     return removeObjectKey(contest, 'isCorrected')
 }

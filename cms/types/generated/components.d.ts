@@ -43,6 +43,7 @@ export interface GamePacksMatchingPacks extends Schema.Component {
   };
   attributes: {
     name: Attribute.String;
+    coverImage: Attribute.Media;
     questions: Attribute.Component<'matching.matching-questions', true>;
   };
 }
@@ -55,6 +56,7 @@ export interface GamePacksQuizPacks extends Schema.Component {
   };
   attributes: {
     name: Attribute.String;
+    coverImage: Attribute.Media;
     questions: Attribute.Component<'quiz.quiz-questions', true>;
   };
 }
@@ -67,6 +69,7 @@ export interface GamePacksWordFindPacks extends Schema.Component {
   };
   attributes: {
     name: Attribute.String;
+    coverImage: Attribute.Media;
     questions: Attribute.Component<'word-find.word-find-questions', true>;
   };
 }

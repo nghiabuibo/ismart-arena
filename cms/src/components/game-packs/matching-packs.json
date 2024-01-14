@@ -8,6 +8,14 @@
     "name": {
       "type": "string"
     },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
     "questions": {
       "displayName": "Matching Questions",
       "type": "component",

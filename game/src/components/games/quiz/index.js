@@ -91,14 +91,20 @@ function Quiz(props) {
             if (!gameState?.currentTimeLeft && !userSubmmitted?.isCorrected) isInCorrected = true
 
             renderAnswer =
-                <form onSubmit={handleInputAnswerSubmit} className={styles.answerInputWrapper}>
-                    <input type='text' className={`${styles.answerInput} ${userSubmmitted ? styles.selected : ''} ${isCorrected ? styles.corrected : ''} ${isInCorrected ? styles.inCorrected : ''}`} value={inputAnswer} onChange={(e) => setInputAnswer(e.target.value)} required={true} disabled={!isSubmittable} />
-                    <button type='submit' className={styles.answerInputSubmit} disabled={!isSubmittable}>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#fff">
-                            <path d="M83.4 226.6L304 256 83.4 285.4 0 480H64L512 256 64 32H0L83.4 226.6z" />
-                        </svg>
-                    </button>
-                </form>
+                <>
+                    {
+                        !gameState?.currentTimeLeft && isInCorrected && answers?.length &&
+                        <div className={styles.answer}>{answers.filter(answer => answer.isCorrected)[0].text}</div>
+                    }
+                    <form onSubmit={handleInputAnswerSubmit} className={styles.answerInputWrapper}>
+                        <input type='text' className={`${styles.answerInput} ${userSubmmitted ? styles.selected : ''} ${isCorrected ? styles.corrected : ''} ${isInCorrected ? styles.inCorrected : ''}`} value={inputAnswer} onChange={(e) => setInputAnswer(e.target.value)} required={true} disabled={!isSubmittable} />
+                        <button type='submit' className={styles.answerInputSubmit} disabled={!isSubmittable}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#fff">
+                                <path d="M83.4 226.6L304 256 83.4 285.4 0 480H64L512 256 64 32H0L83.4 226.6z" />
+                            </svg>
+                        </button>
+                    </form>
+                </>
             break;
 
         default:
@@ -129,7 +135,7 @@ function Quiz(props) {
 
                             {
                                 question.illustration.mime?.includes('audio') &&
-                                <audio className={`mb-3`} src={getMediaUrl(question.illustration)} controls={true} autoPlay={true}></audio>
+                                <audio className={`mb-3 w-100`} src={getMediaUrl(question.illustration)} controls={true} autoPlay={true}></audio>
                             }
                         </>
                     }

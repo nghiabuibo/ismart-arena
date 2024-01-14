@@ -1,10 +1,31 @@
+.coverBg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0 0 0 / 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.coverImage {
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100% !important;
+    padding: 0 !important;
+    z-index: 2;
+}
+
 .titleWrapper {
-    background-image: url(../assets/imgs/title-bg.png);
+    background-image: url(../assets/imgs/title-bg.jpg);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
     max-width: 500px;
-    padding: 5rem 4rem 5rem 3.5rem;
+    padding: 5rem 3.5rem;
     text-align: center;
     font-weight: 700;
     font-size: 2rem;
@@ -14,10 +35,9 @@
 .playerCount {
     font-size: 14rem;
     text-align: center;
-    /* color: orangered; */
     line-height: 1;
-    background: #FF8A14;
-    background: linear-gradient(to right, #ffb265 27%, #af3d11 100%);
+    background: #ff1414;
+    background: linear-gradient(to right, #ff6565 27%, #af1111 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     opacity: 0.8;

@@ -4,16 +4,16 @@ import { toast } from "react-toastify"
 import { getMediaUrl } from "../../../utils/media"
 
 const ImageCard = (props) => {
-    const { src, width, isSelected, handleClick } = props
+    const { content, width, isSelected, handleClick } = props
 
     return (
         <div role="button" className={`${styles.cardWrapper} ${isSelected ? styles.selected : ''}`} style={{ width: `${width}%` }} onClick={handleClick}>
             <div className={`${styles.cardInner}`}>
-                <div className={styles.cardFront}>
+                <div className={styles.cardBack}>
                     <div className={styles.cardCover}></div>
                 </div>
-                <div className={`d-flex align-items-center justify-content-center ${styles.cardBack}`}>
-                    <img src={src} className="img-fluid" alt="Card" />
+                <div className={`d-flex align-items-center justify-content-center ${styles.cardFront}`}>
+                    {content}
                 </div>
             </div>
         </div>
@@ -75,22 +75,38 @@ function Matching(props) {
     }
 
     const answersClone = useMemo(() => {
-        // double the answer then randomize position to make matching pairs
+        // make a matching pair from answer text and media
         const answerConvert = JSON.parse(answerString)
         const arr = []
-        if (answerConvert.length) {
-            arr.push(...answerConvert, ...answerConvert)
-            arr.sort(() => Math.random() - 0.5)
-        }
+
+        if (!answerConvert.length) return arr
+
+        const answersClone1 = answerConvert.map(answer => {
+            return {
+                ...answer,
+                content: <div className={styles.cardText}>{answer.text}</div>
+            }
+        })
+        const answersClone2 = answerConvert.map(answer => {
+            const src = getMediaUrl(answer.media)
+            return {
+                ...answer,
+                content: <img src={src} className={styles.cardMedia} alt="Card Content" />
+            }
+        })
+        arr.push(...answersClone1, ...answersClone2)
+        arr.sort(() => Math.random() - 0.5)
         return arr
     }, [answerString])
 
+    console.log(answersClone)
+
     const renderAnswers = answersClone.map((answer, index) => {
-        const src = getMediaUrl(answer.media)
+        const content = answer.content
         const isSelected = answerSelected.some(selected => selected.id === answer.id && selected.index === index) || userAnswers?.some(userAnswer => userAnswer.answer === answer.id)
 
         return (
-            <ImageCard key={index} src={src} width={width} isSelected={isSelected} handleClick={() => { handleCardClick(answer.id, index) }} />
+            <ImageCard key={index} content={content} width={width} isSelected={isSelected} handleClick={() => { handleCardClick(answer.id, index) }} />
         )
     })
 

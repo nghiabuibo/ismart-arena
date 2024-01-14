@@ -1,5 +1,5 @@
-import ismLogo from '../assets/imgs/3.12.UI_tach-02.png'
-import arenaLogo from '../assets/imgs/3.12.UI_tach-03.png'
+import ismLogo from '../assets/imgs/ism-logo.png'
+import arenaLogo from '../assets/imgs/event-logo.png'
 import styles from './Logo.module.css'
 
 function Logo() {
