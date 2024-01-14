@@ -13,7 +13,7 @@ interface answer {
     timestamp: number,
     gamePackID: number,
     questionID: number,
-    answer: number | string,
+    answer: any,
     timeLeft: number,
     score: number,
     isCorrected: boolean,
@@ -89,7 +89,7 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
 
         const [getAnswer] = currentQuestion.answers.filter(answer => {
             if (currentQuestion.answerType === 'input') {
-                return answer.text === answerObj.answer
+                return answer.text.replace(/\s/g, '').toLowerCase() === answerObj.answer.replace(/\s/g, '').toLowerCase()
             }
 
             return answer.id === answerObj.answer
