@@ -11,15 +11,13 @@ function Leaderboards(props) {
         return (
             <div key={entry.id} className={`d-flex align-items-center gap-3 mb-3 ${styles.leaderboardEntry}`}>
                 <div className={`${styles.leaderboardRanking}`}>{index + 1}.</div>
-                <div className={`d-flex ${styles.leaderboardInfo}`}>
-                    <div className={`${styles.leaderboardCorrected}`}>{entry.totalCorrected}</div>
+                <div className={`${styles.leaderboardInfo}`}>
                     <div className={`${styles.leaderboardName}`}>{entry.user.name}</div>
+                    <small className={`fst-italic fw-normal ${styles.leaderboardCorrected}`}>Corrected: {entry.totalCorrected} - Score: {entry.totalScore}</small>
                 </div>
             </div>
         )
     })
-
-    // const renderLeaderboard = null
 
     return (
         <>

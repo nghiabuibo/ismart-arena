@@ -36,7 +36,7 @@
 
 .leaderboardEntry {
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     font-weight: 700;
     overflow: hidden;
 }
@@ -48,6 +48,7 @@
     background: linear-gradient(120deg, rgba(0, 183, 231, 1) 0%, rgba(0, 115, 203, 1) 100%);
     min-width: 95px;
     text-align: center;
+    font-size: 1.2rem;
 }
 
 @media (max-width: 767px) {
@@ -66,10 +67,15 @@
     content: '';
     position: absolute;
     left: 0;
-    bottom: -13px;
+    bottom: -9px;
     width: 100%;
     height: 2px;
     background-color: rgb(255 255 255 / 0.8);
+}
+@media (max-width: 767px) {
+    .leaderboardInfo::after {
+        bottom: -5px;
+    }
 }
 
 .leaderboardName {
@@ -96,7 +102,6 @@
     .leaderboardRankingWrapper {
         column-count: 1;
     }
-
 }
 
 .showTop3 {
