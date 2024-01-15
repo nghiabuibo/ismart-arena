@@ -31,11 +31,17 @@ function Matching(props) {
     const answerString = JSON.stringify(answers)
 
     const [answerSelected, setSelected] = useState([])
-
+    
+    // reset current selected when time's up
     useEffect(() => {
         if (gameState?.currentTimeLeft > 0) return
         setSelected([])
     }, [gameState?.currentTimeLeft])
+
+    // reset current selected if question changed
+    useEffect(() => {
+        setSelected([])
+    }, [question?.id])
 
     const handleCardClick = (id, index) => {
         // skip if time's up

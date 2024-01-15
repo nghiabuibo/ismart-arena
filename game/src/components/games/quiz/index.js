@@ -1,12 +1,17 @@
 import styles from './quiz.module.css'
 import quizBg from '../../../assets/imgs/quiz-bg.png'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getMediaUrl } from '../../../utils/media'
 
 function Quiz(props) {
     const { gamePack, question, userResult, gameState, handleAnswer, isShowLeaderBoard } = props
     const { answers } = question
     const [inputAnswer, setInputAnswer] = useState('')
+
+    // reset question input if question changed
+    useEffect(() => {
+        setInputAnswer('')
+    }, [question?.id])
 
     const handleInputAnswerSubmit = (e) => {
         e.preventDefault()

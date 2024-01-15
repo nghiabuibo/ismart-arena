@@ -2,6 +2,7 @@ import { jwtDecode } from "jwt-decode";
 import getUserResult from "../utils/getUserResult";
 import getUserContest from "../utils/getUserContest";
 import getUserGameState from "../utils/getUserGameState";
+import vnToEn from "../utils/vnToEn";
 
 interface decodedToken {
     id: number,
@@ -89,7 +90,8 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
 
         const [getAnswer] = currentQuestion.answers.filter(answer => {
             if (currentQuestion.answerType === 'input') {
-                return answer.text.replace(/\s/g, '').toLowerCase() === answerObj.answer.replace(/\s/g, '').toLowerCase()
+                // convert vn chars to en, remove spaces and convert to lower case to compare answer
+                return vnToEn(answer.text).replace(/\s/g, '').toLowerCase() === vnToEn(answerObj.answer).replace(/\s/g, '').toLowerCase()
             }
 
             return answer.id === answerObj.answer
