@@ -25,13 +25,17 @@ function Matching(props) {
     const width = question?.col ? 100 / question?.col : 20
     const answers = question?.answers
 
-    const userAnswers = userResult?.answers?.filter(userAnswer => userAnswer.gamePackID === gamePack.id && userAnswer.questionID === question.id)
+    const userAnswers = userResult?.answers?.filter(userAnswer => {
+        return userAnswer.__component === gamePack.__component
+            && userAnswer.gamePackID === gamePack.id
+            && userAnswer.questionID === question.id
+    })
 
     // using string in useMemo dependency array to prevent unnecessary re-render when randomize answer position
     const answerString = JSON.stringify(answers)
 
     const [answerSelected, setSelected] = useState([])
-    
+
     // reset current selected when time's up
     useEffect(() => {
         if (gameState?.currentTimeLeft > 0) return

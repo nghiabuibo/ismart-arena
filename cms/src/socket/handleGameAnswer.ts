@@ -12,6 +12,7 @@ interface decodedToken {
 
 interface answer {
     timestamp: number,
+    __component: string,
     gamePackID: number,
     questionID: number,
     answer: any,
@@ -47,6 +48,7 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
         const gamePacks = userContest ? userContest.gamePacks : []
         const currentGamePack = gamePacks[userGameState?.currentGamePack]
         const currentQuestion = currentGamePack?.questions[userGameState?.currentQuestion]
+        answerObj.__component = currentGamePack.__component
         answerObj.gamePackID = currentGamePack.id
         answerObj.questionID = currentQuestion.id
 
@@ -63,10 +65,15 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
 
         const [existedAnswer] = userAnswers.filter(answer => {
             if (currentQuestion.allowMultipleAnswers) {
-                return answer.gamePackID === answerObj.gamePackID && answer.questionID === answerObj.questionID && answer.answer === answerObj.answer
+                return answer.__component === answerObj.__component
+                    && answer.gamePackID === answerObj.gamePackID
+                    && answer.questionID === answerObj.questionID
+                    && answer.answer === answerObj.answer
             }
 
-            return answer.gamePackID === answerObj.gamePackID && answer.questionID === answerObj.questionID
+            return answer.__component === answerObj.__component
+                && answer.gamePackID === answerObj.gamePackID
+                && answer.questionID === answerObj.questionID
         })
 
         if (existedAnswer) {

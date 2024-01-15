@@ -36,7 +36,11 @@ async function getUserContest(userID, showAnswer = false) {
             results.forEach(result => {
                 const userAnswers: any = result.answers ?? []
                 const userFoundWords = userAnswers
-                    .filter(userAnswer => userAnswer.gamePackID === currentGamePack.id && userAnswer.questionID === currentQuestion.id)
+                    .filter(userAnswer => {
+                        return userAnswer.__component === currentGamePack.__component
+                            && userAnswer.gamePackID === currentGamePack.id
+                            && userAnswer.questionID === currentQuestion.id
+                    })
                     .map(userAnswer => userAnswer.answer)
                 foundWords.push(...userFoundWords)
             })

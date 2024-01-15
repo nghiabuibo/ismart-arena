@@ -23,7 +23,12 @@ function Quiz(props) {
         case 'select':
             renderAnswer = answers.map(answer => {
                 let isSelected, isCorrected, isInCorrected, correctedAnswer
-                const [userSelected] = userResult?.answers?.filter(userAnswer => userAnswer.gamePackID === gamePack.id && userAnswer.questionID === question.id && userAnswer.answer === answer.id) ?? []
+                const [userSelected] = userResult?.answers?.filter(userAnswer => {
+                    return userAnswer.__component === gamePack.__component
+                        && userAnswer.gamePackID === gamePack.id
+                        && userAnswer.questionID === question.id
+                        && userAnswer.answer === answer.id
+                }) ?? []
                 if (userSelected) isSelected = true
 
                 // only show result when time's up
@@ -75,7 +80,11 @@ function Quiz(props) {
         case 'input':
             let isSubmittable = true
             let isCorrected, isInCorrected
-            const userSubmmittedAll = userResult?.answers?.filter(userAnswer => userAnswer.gamePackID === gamePack.id && userAnswer.questionID === question.id) ?? []
+            const userSubmmittedAll = userResult?.answers?.filter(userAnswer => {
+                return userAnswer.__component === gamePack.__component
+                    && userAnswer.gamePackID === gamePack.id
+                    && userAnswer.questionID === question.id
+            }) ?? []
             const userSubmmittedCorrected = userSubmmittedAll.filter(userSubmmitted => userSubmmitted.isCorrected)
             const [userSubmmitted] = userSubmmittedCorrected.length ? userSubmmittedCorrected : userSubmmittedAll
 
