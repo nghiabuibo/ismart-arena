@@ -50,12 +50,12 @@
     background-size: 100% 100%;
     color: #fff;
     font-weight: 700;
-    padding: 1.2rem 2.3rem;
+    padding: 1.2rem 2.3rem 1.5rem;
 }
 
 @media (max-width: 768px) {
     .answerBtn {
-        padding: 0.8rem 1.2rem;
+        padding: 0.8rem 1.2rem 1rem;
         font-size: 0.8rem;
     }
 }

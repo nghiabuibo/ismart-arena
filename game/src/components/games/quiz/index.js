@@ -94,7 +94,7 @@ function Quiz(props) {
                 <>
                     {
                         !gameState?.currentTimeLeft && isInCorrected && answers?.length &&
-                        <div className={styles.answer}>{answers.filter(answer => answer.isCorrected)[0].text}</div>
+                        <div className={styles.answer}>{answers.filter(answer => answer.isCorrected)[0]?.text}</div>
                     }
                     <form onSubmit={handleInputAnswerSubmit} className={styles.answerInputWrapper}>
                         <input type='text' className={`${styles.answerInput} ${userSubmmitted ? styles.selected : ''} ${isCorrected ? styles.corrected : ''} ${isInCorrected ? styles.inCorrected : ''}`} value={inputAnswer} onChange={(e) => setInputAnswer(e.target.value)} required={true} disabled={!isSubmittable} />
