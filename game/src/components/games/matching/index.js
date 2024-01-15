@@ -109,8 +109,6 @@ function Matching(props) {
         return arr
     }, [answerString])
 
-    console.log(answersClone)
-
     const renderAnswers = answersClone.map((answer, index) => {
         const content = answer.content
         const isSelected = answerSelected.some(selected => selected.id === answer.id && selected.index === index) || userAnswers?.some(userAnswer => userAnswer.answer === answer.id)
