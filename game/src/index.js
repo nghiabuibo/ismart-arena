@@ -11,6 +11,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
+import img from './assets/imgs/Tet-2024---KV.jpg'
+import CoverImage from './views/CoverImage';
+
 const router = createBrowserRouter([
   {
     path: '/game/:groupCode',
@@ -19,8 +22,14 @@ const router = createBrowserRouter([
   {
     path: '/admin',
     element: <Admin />
+  },
+  {
+    path: '*',
+    element: <CoverImage src={img} />
   }
 ])
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

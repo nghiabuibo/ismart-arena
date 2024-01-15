@@ -1,17 +1,7 @@
 import { getMediaUrl } from '../utils/media'
+import CoverImage from './CoverImage'
 import Logo from './Logo'
 import styles from './Waiting.module.css'
-
-const CoverImage = (props) => {
-    const { coverImage } = props
-    const imageUrl = getMediaUrl(coverImage)
-    return (
-        <>
-            <div className={styles.coverBg}></div>
-            <img src={imageUrl} className={styles.coverImage} alt='Game Cover' />
-        </>
-    )
-}
 
 function Waiting(props) {
     const { currentGamePack, leaderboard } = props
@@ -19,7 +9,7 @@ function Waiting(props) {
     return (
         currentGamePack?.coverImage
             ?
-            <CoverImage coverImage={currentGamePack.coverImage} />
+            <CoverImage src={getMediaUrl(currentGamePack.coverImage)} />
             :
             <>
                 <Logo />
