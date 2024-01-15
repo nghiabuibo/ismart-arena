@@ -66,9 +66,21 @@
     padding: 0.7rem;
 }
 
+@media (max-width: 1199px) {
+    .cardText {
+        font-size: 1rem
+    }
+}
+
 @media (max-width: 768px) {
     .cardWrapper {
         width: 25% !important;
         padding: 0.25rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .cardText {
+        font-size: 0.7rem
     }
 }
