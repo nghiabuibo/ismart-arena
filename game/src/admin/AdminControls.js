@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import socket from "../utils/socket"
 import handleRequestError from "../utils/handleRequestError"
+import Logo from "../views/Logo"
 
 function AdminControls(props) {
     const { adminToken, setAdminToken } = props
@@ -84,7 +85,7 @@ function AdminControls(props) {
             }
             newContestGroup.state.currentGamePack = value
             newContestGroup.state.currentQuestion = 0
-            newContestGroup.state.currentTimeLeft = newContestGroup.contest.gamePacks[value].questions?.[0]?.timeLimit ?? null
+            newContestGroup.state.currentTimeLeft = newContestGroup.contest.gamePacks[value]?.questions?.[0]?.timeLimit ?? null
             break;
         }
         socket.emit('admin:updateContestGroups', newContestGroups)
@@ -111,7 +112,7 @@ function AdminControls(props) {
                 case 'next':
                     value += 1
                     // restrict max question
-                    const questionLength = newContestGroup.contest.gamePacks[currentGamePack].questions?.length
+                    const questionLength = newContestGroup.contest.gamePacks[currentGamePack]?.questions?.length
                     if (value > questionLength - 1) {
                         value = questionLength - 1
                     } else {
@@ -123,7 +124,7 @@ function AdminControls(props) {
                     break;
             }
             newContestGroup.state.currentQuestion = value
-            newContestGroup.state.currentTimeLeft = newContestGroup.contest.gamePacks[currentGamePack].questions?.[value]?.timeLimit ?? null
+            newContestGroup.state.currentTimeLeft = newContestGroup.contest.gamePacks[currentGamePack]?.questions?.[value]?.timeLimit ?? null
             break;
         }
         socket.emit('admin:updateContestGroups', newContestGroups)
@@ -155,7 +156,7 @@ function AdminControls(props) {
 
     const renderControls = contestGroups.map(contestGroup => {
         return (
-            <table key={contestGroup.id} className="table table-bordered mb-5">
+            <table key={contestGroup.id} className="table table-bordered text-center mb-5">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -165,7 +166,6 @@ function AdminControls(props) {
                         <th>Current Question</th>
                         <th>Current Time Left</th>
                         <th>Current Status</th>
-                        <th>Controls</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -173,23 +173,32 @@ function AdminControls(props) {
                         <td>{contestGroup.id}</td>
                         <td>{contestGroup.contest?.name}</td>
                         <td>{`${contestGroup.group?.name} (Grade: ${contestGroup.group?.grades})`}</td>
-                        <td>{contestGroup.state?.currentGamePack + 1}</td>
-                        <td>{contestGroup.state?.currentQuestion + 1}</td>
-                        <td>{contestGroup.state?.currentTimeLeft}</td>
-                        <td>{contestGroup.state?.currentStatus}</td>
                         <td>
-                            <button onClick={() => handleChangeGame(contestGroup.id, 'prev')}>Previous Game</button>
-                            <button onClick={() => handleChangeGame(contestGroup.id, 'next')}>Next Game</button>
+                            {contestGroup.state?.currentGamePack + 1}
                             <br /><br />
-                            <button onClick={() => handleChangeQuestion(contestGroup.id, 'prev')}>Previous Question</button>
-                            <button onClick={() => handleChangeQuestion(contestGroup.id, 'next')}>Next Question</button>
+                            <button className="btn btn-primary me-2 mb-2" onClick={() => handleChangeGame(contestGroup.id, 'prev')}>Back</button>
+                            <button className="btn btn-primary me-2 mb-2" onClick={() => handleChangeGame(contestGroup.id, 'next')}>Next</button>
+                        </td>
+                        <td>
+                            {contestGroup.state?.currentQuestion + 1}
                             <br /><br />
-                            <input type="number" name="time" onChange={(e) => setTime(e.target.value)} />
-                            <button onClick={() => handleChangeTime(contestGroup.id)}>Set Time</button>
+                            <button className="btn btn-primary me-2 mb-2" onClick={() => handleChangeQuestion(contestGroup.id, 'prev')}>Back</button>
+                            <button className="btn btn-primary me-2 mb-2" onClick={() => handleChangeQuestion(contestGroup.id, 'next')}>Next</button>
+                        </td>
+                        <td>
+                            {contestGroup.state?.currentTimeLeft}
                             <br /><br />
-                            <button onClick={() => handleChangeStatus(contestGroup.id, 'playing')}>Start</button>
-                            <button onClick={() => handleChangeStatus(contestGroup.id, 'paused')}>Pause</button>
-                            <button onClick={() => handleChangeStatus(contestGroup.id, 'ended')}>End</button>
+                            <div className="d-md-flex gap-2 align-items-center">
+                                <input className="form-control mb-2" style={{ minWidth: '100px' }} type="number" name="time" onChange={(e) => setTime(e.target.value)} />
+                                <button className="btn btn-primary flex-shrink-0 mb-2" onClick={() => handleChangeTime(contestGroup.id)}>Set Time</button>
+                            </div>
+                        </td>
+                        <td>
+                            {contestGroup.state?.currentStatus}
+                            <br /><br />
+                            <button className="btn btn-success me-2 mb-2" onClick={() => handleChangeStatus(contestGroup.id, 'playing')}>Start</button>
+                            <button className="btn btn-secondary me-2 mb-2" onClick={() => handleChangeStatus(contestGroup.id, 'paused')}>Pause</button>
+                            <button className="btn btn-danger me-2 mb-2" onClick={() => handleChangeStatus(contestGroup.id, 'ended')}>End</button>
                         </td>
                     </tr>
                 </tbody>
@@ -199,13 +208,12 @@ function AdminControls(props) {
 
     return (
         <>
-            {/* <pre>
-                {JSON.stringify(gameStates, null, 4)}
-            </pre> */}
-            {
-                renderControls
-            }
+            <Logo />
+            <div className="container overflow-auto">
+                {renderControls}
+            </div>
         </>
+
     )
 }
 
