@@ -32,6 +32,16 @@ server {
         rewrite ^/cms(/.*)$ $1 break;
     }
 
+    location /lucky-draw {
+        proxy_pass http://lucky-draw:80;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        rewrite ^/lucky-draw(/.*)$ $1 break;
+    }
+
     error_page   500 502 503 504  /50x.html;
     location = /50x.html {
         root   /usr/share/nginx/html;

@@ -1,0 +1,4 @@
+<?php
+
+define('RESULT_TOKEN', '');
+define('API_URL', '');
