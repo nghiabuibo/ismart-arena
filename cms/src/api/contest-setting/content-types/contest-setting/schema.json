@@ -18,11 +18,12 @@
       "component": "contest.contest-group"
     },
     "bgm": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     }
   }
 }

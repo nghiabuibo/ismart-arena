@@ -31,7 +31,9 @@ export interface ContestState extends Schema.Component {
     currentGamePack: Attribute.Integer & Attribute.DefaultTo<0>;
     currentQuestion: Attribute.Integer & Attribute.DefaultTo<0>;
     currentTimeLeft: Attribute.Integer & Attribute.DefaultTo<0>;
-    currentStatus: Attribute.Enumeration<['playing', 'paused', 'ended']> &
+    currentStatus: Attribute.Enumeration<
+      ['waiting', 'playing', 'paused', 'ended']
+    > &
       Attribute.DefaultTo<'paused'>;
   };
 }

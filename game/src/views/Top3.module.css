@@ -19,6 +19,12 @@
     margin-bottom: 2.5rem;
 }
 
+@media (max-width: 767px) {
+    .title {
+        font-size: 2.4rem;
+    }
+}
+
 .top {
     color: #fff;
     text-align: center;
@@ -60,11 +66,27 @@
     font-size: 1.8rem;
 }
 
+.top2 .name {
+    font-size: 1.6rem;
+}
+
+.top3 .name {
+    font-size: 1.4rem;
+}
+
 .position {
     font-weight: 700;
     margin-bottom: 54%;
-    margin-top: 18%;
+    margin-top: 38%;
     font-size: 5rem;
+}
+
+.top2 .position {
+    margin-top: 0;
+}
+
+.top3 .position {
+    margin-top: -7%;
 }
 
 .leaderboardBack {

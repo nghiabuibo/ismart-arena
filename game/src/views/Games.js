@@ -19,7 +19,7 @@ function Games(props) {
     const [gameState, setGameState] = useState({})
     const [userResult, setUserResult] = useState({})
     const [leaderboard, setLeaderboard] = useState([])
-    const [showTop3, setShowTop3] = useState(false)
+    const [showTop3, setShowTop3] = useState(true)
 
     // handle socket authen
     useEffect(() => {
@@ -102,7 +102,7 @@ function Games(props) {
     const currentGamePack = gamePacks[gameState?.currentGamePack]
     const currentQuestion = currentGamePack?.questions?.[gameState?.currentQuestion]
 
-    const hideLeaderBoardGames = ['game-packs.quiz-packs']
+    const hideLeaderBoardGames = []
     const isShowLeaderBoard = !hideLeaderBoardGames.includes(currentGamePack?.__component) || gameState?.currentTimeLeft <= 0
 
     return (
@@ -113,9 +113,9 @@ function Games(props) {
                         ?
                         showTop3 ? <Top3 leaderboard={leaderboard} setShowTop3={setShowTop3} /> : <Leaderboards leaderboard={leaderboard} setShowTop3={setShowTop3} />
                         :
-                        !gameState?.currentStatus || gameState?.currentStatus === 'paused'
+                        !gameState?.currentStatus || gameState?.currentStatus === 'waiting' || gameState?.currentStatus === 'paused'
                             ?
-                            <Waiting currentGamePack={currentGamePack} leaderboard={leaderboard} />
+                            <Waiting gameState={gameState} currentGamePack={currentGamePack} leaderboard={leaderboard} />
                             :
                             <>
                                 <div className="col-lg-6">

@@ -196,6 +196,7 @@ function AdminControls(props) {
                         <td>
                             {contestGroup.state?.currentStatus}
                             <br /><br />
+                            <button className="btn btn-secondary me-2 mb-2" onClick={() => handleChangeStatus(contestGroup.id, 'waiting')}>Wait</button>
                             <button className="btn btn-success me-2 mb-2" onClick={() => handleChangeStatus(contestGroup.id, 'playing')}>Start</button>
                             <button className="btn btn-secondary me-2 mb-2" onClick={() => handleChangeStatus(contestGroup.id, 'paused')}>Pause</button>
                             <button className="btn btn-danger me-2 mb-2" onClick={() => handleChangeStatus(contestGroup.id, 'ended')}>End</button>

@@ -4,13 +4,11 @@ import Logo from './Logo'
 import styles from './Waiting.module.css'
 
 function Waiting(props) {
-    const { currentGamePack, leaderboard } = props
+    const { gameState, currentGamePack, leaderboard } = props
 
     return (
-        currentGamePack?.coverImage
+        gameState.currentStatus === 'waiting' || !currentGamePack?.coverImage
             ?
-            <CoverImage src={getMediaUrl(currentGamePack.coverImage)} />
-            :
             <>
                 <Logo />
                 <div className="col-12">
@@ -21,6 +19,9 @@ function Waiting(props) {
                     <div className={`text-uppercase text-center fw-bold text-white ${styles.player}`}>Players</div>
                 </div>
             </>
+            :
+            <CoverImage src={getMediaUrl(currentGamePack.coverImage)} />
+
     )
 }
 

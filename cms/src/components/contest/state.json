@@ -21,6 +21,7 @@
     "currentStatus": {
       "type": "enumeration",
       "enum": [
+        "waiting",
         "playing",
         "paused",
         "ended"
