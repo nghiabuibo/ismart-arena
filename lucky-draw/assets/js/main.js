@@ -110,22 +110,29 @@ function random(index, steps, interval, region) {
 		currentStep++
 		if (currentStep > steps) {
 			clearInterval(highlight)
-			let randomIndexRegion = null
-			while (randomIndexRegion === null || $(`.block[data-id="${idsRegion[randomIndexRegion]}"]`).hasClass('final')) {
-				randomIndexRegion = Math.floor((Math.random() * idsRegion.length));
-			}
-			const randomIDRegion = idsRegion[randomIndexRegion]
 
 			setTimeout(() => {
+				let randomIndexRegion = null
+				let retries = 0
+				while (
+					(randomIndexRegion === null || $(`.block[data-id="${idsRegion[randomIndexRegion]}"]`).hasClass('final'))
+					&& retries < 20
+				) {
+					console.log(retries)
+					randomIndexRegion = Math.floor((Math.random() * idsRegion.length));
+					retries++
+				}
+				const randomIDRegion = idsRegion[randomIndexRegion]
+
 				setWinner(index, randomIDRegion)
 				saveResult()
 			}, interval)
 
 			// show congratulations
-			if (randomIDRegion) {
-				setTimeout(openDialog, 3 * interval)
-				// openDialog()
-			}
+			// if (randomIDRegion) {
+			// 	setTimeout(openDialog, 3 * interval)
+			// 	// openDialog()
+			// }
 		}
 	}, interval);
 }
@@ -138,18 +145,26 @@ $('.start-random').on('click', function () {
 	$('.close').addClass('d-none');
 	bgm.play();
 
+	const prizeQuantity = currentPrize.data('prize-quantity')
 	const index = $('.prize-block').index(currentPrize)
 	const region = currentPrize.data('region')
 	const steps = 20
 	const interval = 300
 	const duration = (steps + 3) * interval
-	random(index, steps, interval, region)
+
+	for (i = 0; i < prizeQuantity; i++) {
+		const delay = i * 100
+		setTimeout(() => {
+			random(index, steps, interval, region)
+		}, delay)
+	}
 
 	setTimeout(() => {
 		$('.close').removeClass('d-none');
 		bgm.pause();
 		bgm.currentTime = 0
-	}, duration)
+		currentPrize.find('.prize-img').trigger('click')
+	}, duration + prizeQuantity * 100)
 });
 
 $('.prize-img').on('click', function () {

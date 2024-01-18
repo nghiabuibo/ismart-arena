@@ -1,5 +1,5 @@
 <?php if (file_exists(__DIR__ . '/config.php')) include_once(__DIR__ . '/config.php'); ?>
-<?php $cache = '241301'; ?>
+<?php $cache = '240118'; ?>
 <!DOCTYPE html>
 <html lang="vi-VN">
 
@@ -47,13 +47,16 @@
 		</div>
 		<div class="row">
 			<?php
-			$next = 0;
-			for ($i = 0; $i < 3; $i++) {
-				$next = $i + 1;
+			$prizeRow1 = [
+				1 => 10,
+				2 => 2,
+				3 => 2
+			];
+			foreach ($prizeRow1 as $id => $prizeQuantity) {
 			?>
 				<div class="col-md-4">
-					<div class="prize-block" data-img="assets/imgs/prize-<?php echo $i + 1; ?>.png?v=<?php echo $cache; ?>">
-						<img class="img-fluid prize-img" src="assets/imgs/prize-<?php echo $i + 1; ?>.png?v=<?php echo $cache; ?>" role="button" data-bs-target="#prize_list" data-bs-toggle="modal" />
+					<div class="prize-block" data-prize-quantity="<?php echo $prizeQuantity; ?>" data-img="assets/imgs/prize-<?php echo $id; ?>.png?v=<?php echo $cache; ?>">
+						<img class="img-fluid prize-img" src="assets/imgs/prize-<?php echo $id; ?>.png?v=<?php echo $cache; ?>" role="button" data-bs-target="#prize_list" data-bs-toggle="modal" />
 						<div class="prize-id text-center fw-bold mt-3 lead"></div>
 						<div class="prize-name text-center fw-bold"></div>
 						<div class="prize-phone text-center fw-bold"></div>
@@ -65,10 +68,16 @@
 			<?php } ?>
 		</div>
 		<div class="row">
-			<?php for ($i = 0; $i < 2; $i++) { ?>
-				<div class="col-md-4 <?php if ($i === 0) echo 'offset-md-2'; ?>">
-					<div class="prize-block" data-img="assets/imgs/prize-<?php echo $i + $next + 1; ?>.png?v=<?php echo $cache; ?>">
-						<img class="img-fluid prize-img" src="assets/imgs/prize-<?php echo $i + $next + 1; ?>.png?v=<?php echo $cache; ?>" role="button" data-bs-target="#prize_list" data-bs-toggle="modal" />
+			<?php
+			$prizeRow2 = [
+				4 => 1,
+				5 => 1,
+			];
+			foreach ($prizeRow2 as $id => $prizeQuantity) {
+			?>
+				<div class="col-md-4 <?php if ($id === 4) echo 'offset-md-2'; ?>">
+					<div class="prize-block" data-prize-quantity="<?php echo $prizeQuantity; ?>" data-img="assets/imgs/prize-<?php echo $id; ?>.png?v=<?php echo $cache; ?>">
+						<img class="img-fluid prize-img" src="assets/imgs/prize-<?php echo $id; ?>.png?v=<?php echo $cache; ?>" role="button" data-bs-target="#prize_list" data-bs-toggle="modal" />
 						<div class="prize-id text-center fw-bold mt-3 lead"></div>
 						<div class="prize-name text-center fw-bold"></div>
 						<div class="prize-phone text-center fw-bold"></div>
