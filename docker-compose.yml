@@ -31,7 +31,7 @@ services:
     restart: always
   mysql:
     image: mysql:8.0.35
-    command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=mysql_native_password --max_connections=1000
     environment:
       MYSQL_DATABASE: ismart-arena
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
