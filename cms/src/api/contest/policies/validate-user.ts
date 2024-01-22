@@ -8,15 +8,15 @@ export default async (ctx, config, { strapi }) => {
         if (!data[key]) throw new ApplicationError(`Missing ${key} data!`)
     }
 
-    const allowedGrades = [1, 2, 3, 4, 5]
+    const allowedGrades = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     const grade = parseInt(data.grade)
 
     if (!allowedGrades.includes(grade)) throw new ApplicationError(`Invalid grade data!`)
 
-    const { phone } = data
+    const { phone, name } = data
     const [user] = await strapi.entityService.findMany('plugin::users-permissions.user', {
         limit: 1,
-        filters: { phone }
+        filters: { phone, name }
     })
 
     if (user) {
