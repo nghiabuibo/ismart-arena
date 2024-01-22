@@ -6,6 +6,10 @@ import { factories } from '@strapi/strapi'
 import getRoleIDByName from "../../../utils/getRoleIDbyName";
 import crypto from "crypto"
 
+interface Strapi {
+    [key: string]: any
+}
+
 export default factories.createCoreController('api::contest.contest', ({ strapi }) => ({
     async register(ctx) {
         try {
@@ -19,7 +23,8 @@ export default factories.createCoreController('api::contest.contest', ({ strapi 
                 data.password = phone
                 data.role = roleID
                 data.provider = 'local'
-                const user = await strapi.entityService.create('plugin::users-permissions.user', { data })
+                const user = await strapi.entityService.create('plugin::users-permissions.user', { data });
+                (strapi as Strapi).gameData.users.push(user)
                 ctx.request.body.userID = user.id
             }
 

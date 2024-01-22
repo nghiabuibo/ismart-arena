@@ -1,5 +1,6 @@
 import getContestGroups from "./utils/getContestGroups";
 import isDeepEqualArray from "./utils/isDeepEqualArray";
+import syncGameData from "./utils/syncGameData";
 
 export default {
   /**
@@ -18,6 +19,9 @@ export default {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }) {
+    // sync game data when starting server
+    await syncGameData(strapi)
+
     // set contest groups game time countdown
     setInterval(async () => {
       const contestGroups = await getContestGroups()
@@ -36,8 +40,11 @@ export default {
 
       // only update timer if there are changes
       if (isDeepEqualArray(contestGroups, updatedContestGroups)) return
+      strapi.gameData.contestSettings.contestGroups = updatedContestGroups
 
       try {
+        // const schema = strapi.entityService
+        strapi.$io.raw({ event: 'contest-setting:timerUpdate' })
         strapi.entityService.update('api::contest-setting.contest-setting', 1, {
           data: { contestGroups: updatedContestGroups }
         })

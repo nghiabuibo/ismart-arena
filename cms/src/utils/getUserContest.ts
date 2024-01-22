@@ -2,8 +2,15 @@ import getContestGroup from "./getContestGroup"
 import gradeToGroup from "./gradeToGroup"
 import removeObjectKey from "./removeObjectKey"
 
+interface Strapi {
+    [key: string]: any
+}
+
 async function getUserContest(userID, showAnswer = false) {
-    const user = await strapi.entityService.findOne('plugin::users-permissions.user', userID)
+    // const user = await strapi.entityService.findOne('plugin::users-permissions.user', userID)
+    const [user] = (strapi as Strapi).gameData.users.filter(user => user.id === userID)
+
+    if (!user) return
 
     const group = await gradeToGroup(user.grade)
     const groupID: any = group.id
@@ -12,8 +19,9 @@ async function getUserContest(userID, showAnswer = false) {
 
     if (!contestID) return
 
-    const populate = 'gamePacks.questions.illustration, gamePacks.questions.answers.media, gamePacks.coverImage'
-    const contest = await strapi.entityService.findOne('api::contest.contest', contestID, { populate })
+    // const populate = 'gamePacks.questions.illustration, gamePacks.questions.answers.media, gamePacks.coverImage'
+    // const contest = await strapi.entityService.findOne('api::contest.contest', contestID, { populate })
+    const [contest] = (strapi as Strapi).gameData.contests.filter(contest => contest.id === contestID)
 
     if (!contest) return
 
@@ -24,13 +32,14 @@ async function getUserContest(userID, showAnswer = false) {
         const currentQuestion: any = currentGamePack.questions[gameState.currentQuestion]
         if (currentQuestion.answers && currentQuestion.answers.length) {
             // get found words
-            const results = await strapi.entityService.findMany('api::result.result', {
-                filters: {
-                    contest: contestID,
-                    group: groupID
-                },
-                limit: -1
-            })
+            // const results = await strapi.entityService.findMany('api::result.result', {
+            //     filters: {
+            //         contest: contestID,
+            //         group: groupID
+            //     },
+            //     limit: -1
+            // })
+            const results = (strapi as Strapi).gameData.results.filter(result => result.contest.id === contestID && result.group.id === groupID)
 
             const foundWords = []
             results.forEach(result => {
@@ -52,7 +61,8 @@ async function getUserContest(userID, showAnswer = false) {
 
     if (showAnswer || !gameState.currentTimeLeft) return contest
 
-    return removeObjectKey(contest, 'isCorrected')
+    const contestCloned = JSON.parse(JSON.stringify(contest))
+    return removeObjectKey(contestCloned, 'isCorrected')
 }
 
 export default getUserContest

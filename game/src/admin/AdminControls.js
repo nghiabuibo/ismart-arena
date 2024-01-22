@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import socket from "../utils/socket"
 import handleRequestError from "../utils/handleRequestError"
 import Logo from "../views/Logo"
+import { toast } from "react-toastify"
 
 function AdminControls(props) {
     const { adminToken, setAdminToken } = props
@@ -40,16 +41,26 @@ function AdminControls(props) {
             socket.emit('admin:getContestGroups')
         })
 
-        socket.on('admin:updateContestGroups', setContestGroups)
+        socket.on('admin:updatedContestGroups', setContestGroups)
+
+        socket.on('admin:syncedGameData', () => {
+            toast.success('Game data synced!', { theme: 'colored' })
+        })
 
         socket.on('contest-setting:update', () => {
             socket.emit('admin:getContestGroups')
         })
 
+        socket.on('contest-setting:timerUpdate', () => {
+            socket.emit('admin:getContestGroups')
+        })
+
         return () => {
             socket.off('connect')
-            socket.off('admin:updateContestGroups')
+            socket.off('admin:updatedContestGroups')
+            socket.off('admin:syncedGameData')
             socket.off('contest-setting:update')
+            socket.off('contest-setting:timerUpdate')
         }
     }, [])
 
@@ -154,6 +165,10 @@ function AdminControls(props) {
         socket.emit('admin:updateContestGroups', newContestGroups)
     }
 
+    const handleSyncGameData = () => {
+        socket.emit('admin:syncGameData')
+    }
+
     const renderControls = contestGroups.map(contestGroup => {
         return (
             <table key={contestGroup.id} className="table table-bordered text-center mb-5">
@@ -212,6 +227,9 @@ function AdminControls(props) {
             <Logo />
             <div className="container overflow-auto">
                 {renderControls}
+                <div className="text-center">
+                    <btn className="btn btn-primary" onClick={handleSyncGameData}>Sync Game Data</btn>
+                </div>
             </div>
         </>
 

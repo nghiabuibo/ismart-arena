@@ -120,7 +120,19 @@ async function handleGameAnswer({ strapi, io }, socket, answer) {
         userAnswers.push(answerObj)
         const totalScore = userAnswers.reduce((total, answer) => total + answer.score, 0)
         const totalCorrected = userAnswers.filter(answer => answer.isCorrected).length
-        await strapi.entityService.update('api::result.result', userResult.id, {
+
+        userResult.answers = userAnswers
+        userResult.totalScore = totalScore
+        userResult.totalCorrected = totalCorrected
+        
+        strapi.$io.raw({
+            event: 'result:update',
+            data: {
+                id: userResult.id,
+                attributes: userResult
+            }
+        })
+        strapi.entityService.update('api::result.result', userResult.id, {
             data: {
                 answers: userAnswers,
                 totalScore,

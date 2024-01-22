@@ -118,7 +118,6 @@ function random(index, steps, interval, region) {
 					(randomIndexRegion === null || $(`.block[data-id="${idsRegion[randomIndexRegion]}"]`).hasClass('final'))
 					&& retries < 20
 				) {
-					console.log(retries)
 					randomIndexRegion = Math.floor((Math.random() * idsRegion.length));
 					retries++
 				}

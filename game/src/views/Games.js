@@ -62,10 +62,15 @@ function Games(props) {
             socket.emit('game:getGamePacks')
         })
 
+        socket.on('contest-setting:timerUpdate', () => {
+            socket.emit('game:getGameState')
+        })
+
         socket.on('result:update', (data) => {
             socket.emit('game:getLeaderboard')
             socket.emit('game:getGamePacks')
 
+            if (!userResult?.id) return
             if (userResult.id !== data.data?.id) return
             const userResultMap = {
                 id: data.data.id,
@@ -73,6 +78,8 @@ function Games(props) {
             }
             setUserResult(userResultMap)
         })
+
+        socket.on('admin:syncedGameData', () => window.location.reload())
 
         socket.on('socket:error', handleRequestError)
 
@@ -84,10 +91,11 @@ function Games(props) {
             socket.off('game:updateLeaderboard')
             socket.off('game:userJoined')
             socket.off('contest-setting:update')
+            socket.off('contest-setting:timerUpdate')
             socket.off('result:update')
             socket.off('socket:error')
         }
-    }, [userResult])
+    }, [userResult?.id])
 
     const handleAnswer = (answer) => {
         // skip if time's up
