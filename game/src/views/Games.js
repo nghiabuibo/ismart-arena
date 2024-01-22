@@ -97,6 +97,12 @@ function Games(props) {
         }
     }, [userResult?.id])
 
+    useEffect(() => {
+        // getting game pack when time's up will show the corrected answer
+        if (gameState?.currentTimeLeft > 0) return
+        socket.emit('game:getGamePacks')
+    }, [gameState?.currentTimeLeft])
+
     const handleAnswer = (answer) => {
         // skip if time's up
         if (gameState?.currentTimeLeft <= 0) {
