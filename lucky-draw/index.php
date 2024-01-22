@@ -1,5 +1,5 @@
 <?php if (file_exists(__DIR__ . '/config.php')) include_once(__DIR__ . '/config.php'); ?>
-<?php $cache = '240118'; ?>
+<?php $cache = '240122'; ?>
 <!DOCTYPE html>
 <html lang="vi-VN">
 

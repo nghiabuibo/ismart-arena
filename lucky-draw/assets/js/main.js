@@ -140,6 +140,7 @@ $('.start-random').on('click', function () {
 	const currentPrize = $(this).closest('.prize-block')
 
 	if (!currentPrize.length) return;
+	if (currentPrize.data('winner-id')) return;
 
 	$('.close').addClass('d-none');
 	bgm.play();
