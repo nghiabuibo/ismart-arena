@@ -26,6 +26,8 @@ services:
     build: 
       context: ./lucky-draw
       dockerfile: ./Dockerfile
+    volumes:
+      - ./lucky-draw/*.json:/var/www/html
     networks:
       - app_network
     restart: always

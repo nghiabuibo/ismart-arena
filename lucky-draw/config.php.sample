@@ -1,7 +1,7 @@
 <?php
 
-define('RESULT_TOKEN', '');
 define('API_URL', '');
+define('RESULT_TOKEN', '');
 
 define('GG_API_URL', '');
 define('GG_TOKEN', '');
