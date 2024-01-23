@@ -27,7 +27,8 @@ services:
       context: ./lucky-draw
       dockerfile: ./Dockerfile
     volumes:
-      - ./lucky-draw/*.json:/var/www/html
+      - ./lucky-draw/result.json:/var/www/html/result.json
+      - ./lucky-draw/result_ggsheet.json:/var/www/html/result_ggsheet.json
     networks:
       - app_network
     restart: always
