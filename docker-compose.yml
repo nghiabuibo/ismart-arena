@@ -33,12 +33,13 @@ services:
     restart: always
   mysql:
     image: mysql:8.0.35
-    command: --default-authentication-plugin=mysql_native_password --max_connections=1000
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_DATABASE: ismart-arena
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./mysql:/var/lib/mysql
+      - ./conf.d:/etc/mysql/conf.d
     ports:
       - 3306:3306
     networks:
