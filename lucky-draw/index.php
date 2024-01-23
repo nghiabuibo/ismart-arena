@@ -1,4 +1,6 @@
 <?php if (file_exists(__DIR__ . '/config.php')) include_once(__DIR__ . '/config.php'); ?>
+<?php $cache = '240123'; ?>
+
 <?php
 $source = $_GET['source'] ?? '';
 function getData($source)
@@ -58,7 +60,7 @@ function getData($source)
 	return $data;
 }
 ?>
-<?php $cache = '240122'; ?>
+
 <!DOCTYPE html>
 <html lang="vi-VN">
 

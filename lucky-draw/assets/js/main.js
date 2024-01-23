@@ -17,7 +17,7 @@ function closeDialog() {
 
 function initRandom() {
 	const resultFile = RESULT_SOURCE === 'ggsheet' ? 'result_ggsheet.json' : 'result.json'
-	$.getJSON(resultFile + "?" + Date.now(), function (result) {
+	$.getJSON('result/' + resultFile + "?" + Date.now(), function (result) {
 		if (!result || !Object.keys(result).length) return;
 
 		for (let index in result) {
