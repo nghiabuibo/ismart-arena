@@ -16,7 +16,8 @@ function closeDialog() {
 }
 
 function initRandom() {
-	$.getJSON("result.json?" + Date.now(), function (result) {
+	const resultFile = RESULT_SOURCE === 'ggsheet' ? 'result_ggsheet.json' : 'result.json'
+	$.getJSON(resultFile + "?" + Date.now(), function (result) {
 		if (!result || !Object.keys(result).length) return;
 
 		for (let index in result) {
@@ -41,7 +42,7 @@ function saveResult() {
 	$.ajax({
 		type: "POST",
 		dataType: 'json',
-		url: 'save.php',
+		url: 'save.php?source=' + RESULT_SOURCE,
 		data: { winner_order: winner_order },
 	});
 }
@@ -200,7 +201,7 @@ $('#clear_list').on('click', function () {
 
 	$.ajax({
 		type: "POST",
-		url: 'save.php',
+		url: 'save.php?source=' + RESULT_SOURCE,
 		data: { clear: '1' },
 		success: function (response) {
 			location.reload();

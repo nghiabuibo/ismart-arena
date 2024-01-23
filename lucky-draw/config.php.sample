@@ -2,3 +2,9 @@
 
 define('RESULT_TOKEN', '');
 define('API_URL', '');
+
+define('GG_API_URL', '');
+define('GG_TOKEN', '');
+define('GG_SHEET_NAME', '');
+define('GG_SHEET_RANGE', '');
+define('GG_SPREADSHEET_ID', '');

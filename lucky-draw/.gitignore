@@ -25,4 +25,5 @@ yarn-debug.log*
 yarn-error.log*
 
 result.json
+result_ggsheet.json
 config.php

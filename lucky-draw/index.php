@@ -1,4 +1,63 @@
 <?php if (file_exists(__DIR__ . '/config.php')) include_once(__DIR__ . '/config.php'); ?>
+<?php
+$source = $_GET['source'] ?? '';
+function getData($source)
+{
+	if ($source === 'ggsheet') {
+		$api_url = defined('GG_API_URL') ? GG_API_URL : '';
+		$token = defined('GG_TOKEN') ? GG_TOKEN : '';
+
+		$sheet_name = defined('GG_SHEET_NAME') ? GG_SHEET_NAME : '';
+		$sheet_range = defined('GG_SHEET_RANGE') ? GG_SHEET_RANGE : '';
+		$params = '/values/'.urlencode($sheet_name).'!'.$sheet_range.'?key=';
+		$spreadsheet_id = defined('GG_SPREADSHEET_ID') ? GG_SPREADSHEET_ID : '';
+		$json = file_get_contents($api_url.$spreadsheet_id.$params.$token);
+		$data_arr = json_decode($json)->values;
+		$data = array_map(function($entry) {
+			return [
+				'id' => $entry[0] ?? '',
+				'phone' => $entry[1] ?? '',
+				'name' => $entry[2] ?? ''
+			];
+		}, $data_arr);
+		return $data;
+	}
+
+	$api_url = defined('API_URL') ? API_URL : '';
+	$token = defined('RESULT_TOKEN') ? RESULT_TOKEN : '';
+
+	$params = [
+		'filters[results][answers][$not]' => 'null'
+	];
+	$endpoint = $api_url . '/users?' . http_build_query($params);
+
+	// Initialize cURL session
+	$ch = curl_init();
+
+	// Set cURL options
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, [
+		'Authorization: Bearer ' . $token,
+	]);
+	curl_setopt($ch, CURLOPT_URL, $endpoint);
+
+	// Execute cURL session and get the result
+	$response = curl_exec($ch);
+
+	// Check for errors
+	if (curl_errno($ch)) {
+		echo 'Curl error: ' . curl_error($ch);
+	}
+
+	// Close cURL session
+	curl_close($ch);
+
+	// Output the response
+	$data = json_decode($response, true);
+
+	return $data;
+}
+?>
 <?php $cache = '240122'; ?>
 <!DOCTYPE html>
 <html lang="vi-VN">
@@ -108,61 +167,28 @@
 					<!--<button class="btn btn-light" id="toggle_size">Small</button>-->
 					<div class="prize-blocks">
 						<?php
-						$api_url = defined('API_URL') ? API_URL : null;
-						$token = defined('RESULT_TOKEN') ? RESULT_TOKEN : null;
-						if ($api_url && $token) {
-							$params = [
-								'filters[results][answers][$not]' => 'null'
-							];
-							$endpoint = $api_url . '/users?' . http_build_query($params);
+						$data = getData($source);
 
-							// Initialize cURL session
-							$ch = curl_init();
+						if ($data) {
+							foreach ($data as $key => $entry) {
+								$id = $entry['id'] ?? '';
+								if (!$id) continue;
 
-							// Set cURL options
-							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-							curl_setopt($ch, CURLOPT_HTTPHEADER, [
-								'Authorization: Bearer ' . $token,
-							]);
-							curl_setopt($ch, CURLOPT_URL, $endpoint);
+								$name = $entry['name'] ?? '';
+								$phone = $entry['phone'] ?? '';
+								if ($phone) $phone = '******' . substr($phone, -4);
 
-							// Execute cURL session and get the result
-							$response = curl_exec($ch);
+								$region = $entry['grade'] ?? '';
 
-							// Check for errors
-							if (curl_errno($ch)) {
-								echo 'Curl error: ' . curl_error($ch);
-							}
+								$tooltip = [];
+								if ($name) $tooltip[] = $name;
+								if ($phone) $tooltip[] = $phone;
+								$tooltip_html = implode('<br/>', $tooltip);
 
-							// Close cURL session
-							curl_close($ch);
-
-							// Output the response
-							$data_arr = json_decode($response, true);
-
-							if ($data_arr) {
-								foreach ($data_arr as $key => $data) {
-									$id = $data['id'] ?? '';
-									if (!$id) continue;
-
-									$name = $data['name'] ?? '';
-									$phone = $data['phone'] ?? '';
-									if ($phone) $phone = '******' . substr($phone, -4);
-
-									$region = $data['grade'] ?? '';
-
-									$tooltip = [];
-									if ($name) $tooltip[] = $name;
-									if ($phone) $tooltip[] = $phone;
-									$tooltip_html = implode('<br/>', $tooltip);
-
-									echo "<span type='button' class='block' data-id='$id' data-region='$region' data-bs-toggle='tooltip' data-bs-html='true' data-name='$name' data-phone='$phone' title='$tooltip_html'>$id</span>";
-								}
-							} else {
-								echo '<span class="text-white">No data set!</span>';
+								echo "<span type='button' class='block' data-id='$id' data-region='$region' data-bs-toggle='tooltip' data-bs-html='true' data-name='$name' data-phone='$phone' title='$tooltip_html'>$id</span>";
 							}
 						} else {
-							echo '<span class="text-white">Config not set!</span>';
+							echo '<span class="text-white">No data set!</span>';
 						}
 						?>
 					</div>
@@ -222,8 +248,10 @@
 
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-
-	<script type="text/javascript" src="assets/js/main.js?v=<?php echo $cache; ?>"></script>
+	<script type="text/javascript">
+		const RESULT_SOURCE = '<?php echo $source; ?>';
+	</script>
+	<script type="text/javascript" src="assets/js/main.js?v=<?php echo $cache; ?>"> </script>
 </body>
 
 </html>
