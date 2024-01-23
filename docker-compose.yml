@@ -15,8 +15,8 @@ services:
       context: ./cms
       dockerfile: ./Dockerfile
     volumes:
-      - ./cms/database:/cms/database:rw
-      - ./cms/public/uploads:/cms/public/uploads:rw
+      - ./cms/database:/cms/database
+      - ./cms/public/uploads:/cms/public/uploads
     ports:
       - 1337:1337
     networks:
@@ -38,7 +38,7 @@ services:
       MYSQL_DATABASE: ismart-arena
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - ./mysql:/var/lib/mysql:rw
+      - ./mysql:/var/lib/mysql
     ports:
       - 3306:3306
     networks:

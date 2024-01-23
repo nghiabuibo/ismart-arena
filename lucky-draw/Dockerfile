@@ -5,3 +5,6 @@ WORKDIR /var/www/html
 
 # copy source code
 COPY ./ ./
+
+# set permission
+RUN chown -R www-data result
