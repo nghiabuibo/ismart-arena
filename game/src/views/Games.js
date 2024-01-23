@@ -79,7 +79,10 @@ function Games(props) {
             setUserResult(userResultMap)
         })
 
-        socket.on('admin:syncedGameData', () => window.location.reload())
+        socket.on('admin:syncedGameData', () => {
+            const isSyncedGameData = true
+            socket.emit('user:connection', isSyncedGameData)
+        })
 
         socket.on('socket:error', handleRequestError)
 
@@ -93,6 +96,7 @@ function Games(props) {
             socket.off('contest-setting:update')
             socket.off('contest-setting:timerUpdate')
             socket.off('result:update')
+            socket.off('admin:syncedGameData')
             socket.off('socket:error')
         }
     }, [userResult?.id])

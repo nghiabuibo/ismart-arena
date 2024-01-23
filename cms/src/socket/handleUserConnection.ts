@@ -10,7 +10,7 @@ interface decodedToken {
     exp: number
 }
 
-async function handleUserConnection({ strapi, io }, socket) {
+async function handleUserConnection({ strapi, io }, socket, isSyncedGameData) {
     try {
         const { token } = socket.handshake.auth
         const decoded = jwtDecode<decodedToken>(token)
@@ -27,6 +27,10 @@ async function handleUserConnection({ strapi, io }, socket) {
         socket.emit('game:updateGameState', userGameState)
         socket.emit('game:updateResult', userResult)
         socket.emit('game:updateLeaderboard', leaderboard)
+
+        if (isSyncedGameData) return
+        
+        // broadcast newly joined user to update leaderboard
         socket.broadcast.emit('game:userJoined')
     } catch (err) {
         console.log(err)

@@ -45,6 +45,7 @@ function AdminControls(props) {
 
         socket.on('admin:syncedGameData', () => {
             toast.success('Game data synced!', { theme: 'colored' })
+            socket.emit('admin:getContestGroups')
         })
 
         socket.on('contest-setting:update', () => {
